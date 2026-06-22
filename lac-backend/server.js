@@ -101,7 +101,12 @@ app.post('/loginAcc', async(req, res) => {
         )
         return res.json({
             token,
-            user: {id: user.id, email: user.email}
+            user: {
+                id: user.id, 
+                username: user.username,
+                email: user.email, 
+                role: user.role
+                }
         })
     } catch (error) {
         console.log('Login Error', error)

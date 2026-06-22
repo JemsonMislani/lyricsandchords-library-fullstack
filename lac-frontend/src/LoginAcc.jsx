@@ -24,6 +24,9 @@ export default function LoginAccount(){
         })
         .then(result => {
             setUser(result.data.user)
+            const loggedUser = result.data.user;
+            setUser(loggedUser)
+            
             if(remember){
                 localStorage.setItem('token', result.data.token)
                 sessionStorage.removeItem('token');
@@ -31,7 +34,12 @@ export default function LoginAccount(){
                 sessionStorage.setItem('token', result.data.token)
                 localStorage.removeItem('token')
             }
-            nav('/adminDashboard')
+            
+            if(loggedUser.role === 'admin'){
+                nav('/adminDashboard')
+            } else {
+                nav('/userDashboard')
+            }
         })
         .catch(err => {
             alert('Invalid credentials', err)

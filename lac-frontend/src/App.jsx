@@ -12,7 +12,7 @@ export default function App() {
         <Route path='/' element={<LoginAccount />}/>
         <Route path='/register' element={<RegisterAccount />}/>
         <Route path='/adminDashboard' element={<AdminDashBoard />}/>
-        <Route path='/userDasboard' element={<UserDashBoard />}/>
+        <Route path='/userDashboard' element={<UserDashBoard />}/>
       </Routes>
       </BrowserRouter>
     </>
