@@ -77,6 +77,38 @@ app.post('/registerAcc', async(req, res) => {
     }
 })
 
+// login acc
+app.post('/loginAcc', async(req, res) => {
+
+    try {
+        const { email, password } = req.body;
+
+        const result = await pool.query('SELECT * FROM users WHERE email=$1', [ email ])
+        if(result.rows.length === 0){
+            return res.status(400).json({message: 'User not found'})
+        }
+
+        const user = result.rows[0]
+        const isMatch = await bcrypt.compare(password, user.password)
+        if(!isMatch){
+            return res.status(400).json({message: 'Invalid credentials'})
+        }
+
+        const token = jwt.sign(
+            {id: user.id},
+            'YOUR_JWT_SECRET',
+            {expiresIn: '24h'}
+        )
+        return res.json({
+            token,
+            user: {id: user.id, email: user.email}
+        })
+    } catch (error) {
+        console.log('Login Error', error)
+        res.status(500).send({message: 'Server error', error})
+    }
+})
+
 const PORT = 3005;
 app.listen(PORT, () => {
     console.log(`Jem! Your server is running on port ${PORT}.`)
