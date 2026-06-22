@@ -31,7 +31,7 @@ export default function LoginAccount(){
                 sessionStorage.setItem('token', result.data.token)
                 localStorage.removeItem('token')
             }
-            nav('/dashboard')
+            nav('/adminDashboard')
         })
         .catch(err => {
             alert('Invalid credentials', err)

@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, } from 'react-router-dom'
 import LoginAccount from './LoginAcc'
 import RegisterAccount from './RegisterAcc'
-import DashBoard from './Dashboard'
+import AdminDashBoard from './AdminDashboard'
+import UserDashBoard from './UserDashboard'
 export default function App() {
 
   return (
@@ -10,7 +11,8 @@ export default function App() {
       <Routes>
         <Route path='/' element={<LoginAccount />}/>
         <Route path='/register' element={<RegisterAccount />}/>
-        <Route path='/dashboard' element={<DashBoard />}/>
+        <Route path='/adminDashboard' element={<AdminDashBoard />}/>
+        <Route path='/userDasboard' element={<UserDashBoard />}/>
       </Routes>
       </BrowserRouter>
     </>
