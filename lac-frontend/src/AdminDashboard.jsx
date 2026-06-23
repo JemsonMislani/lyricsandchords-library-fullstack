@@ -37,8 +37,22 @@ export default function AdminDashBoard(){
                 </div>
                 </aside>
                 <main className="flex-1 p-6 overflow-auto">
-                <h1 className="text-2xl font-semibold mb-5">Welcome, {username}! </h1>
+                <h1 className="text-2xl font-semibold mb-5">Welcome, {username}!</h1>
                     <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(3in, max-content))' }}>
+                    </div>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>
+                        <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
+                        <p className='text-l text-white'>Total Songs:</p>
+                        <h2 className='text-2xl font-bold text-white'>143</h2>
+                        </div>
+                        <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
+                        <p className='text-l text-white'>Artists:</p>
+                        <h2 className='text-2xl font-bold text-white'>70</h2>
+                        </div>
+                        <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
+                        <p className='text-l text-white'>Chords:</p>
+                        <h2 className='text-2xl font-bold text-white'>50</h2>
+                        </div>
                     </div>
                 </main>
             </div>
