@@ -31,7 +31,7 @@ const verifyToken = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, 'YOUR_JWT_SECRET');
         req.user = decoded;
         next();
     } catch (error) {
@@ -111,6 +111,19 @@ app.post('/loginAcc', async(req, res) => {
     } catch (error) {
         console.log('Login Error', error)
         res.status(500).send({message: 'Server error', error})
+    }
+})
+
+// get the username of the admin
+app.get('/getAdminUsername', verifyToken, async(req, res) => {
+    
+    try {
+        const userId = req.user.id;
+        const result = await pool.query('SELECT * FROM users WHERE id = $1', [ userId ])
+        res.json(result.rows[0])
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error')
     }
 })
 
