@@ -4,6 +4,7 @@ import RegisterAccount from './RegisterAcc'
 import AdminDashBoard from './AdminDashboard'
 import UserDashBoard from './UserDashboard'
 import Songlists from './Songlists'
+import AddDataOfSongs from './AddDataOfSong'
 export default function App() {
 
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path='/adminDashboard' element={<AdminDashBoard />}/>
         <Route path='/userDashboard' element={<UserDashBoard />}/>
         <Route path='/songlists' element={<Songlists />}/>
+        <Route path='/addsong' element={<AddDataOfSongs />}/>
       </Routes>
       </BrowserRouter>
     </>

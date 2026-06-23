@@ -47,7 +47,9 @@ export default function Songlists(){
                     <Link 
                         to={'/songlists'}
                         className="block px-4 py-2 rounded hover:bg-gray-700">🎧 Song lists</Link>
-                    <a href="#" className="block px-4 py-2 rounded hover:bg-gray-700">➕ Add songs               <label className="text-white m-1 p-1"></label></a>
+                    <Link 
+                        to={'/addsong'}
+                        className="block px-4 py-2 rounded hover:bg-gray-700">➕ Add songs               <label className="text-white m-1 p-1"></label></Link>
                     <a href="#" className="block px-4 py-2 rounded hover:bg-gray-700">🙍🏻‍♂️ Users</a>
                 </nav>
                 <div className="p-4 border-t border-gray-700 text-sm text-gray-400">
