@@ -168,6 +168,17 @@ app.get('/totalOfSong', verifyToken, async(req, res) => {
     }
 })
 
+app.get('/totalOfArtist', verifyToken, async(req, res) => {
+
+    try {
+        const result = await pool.query('SELECT COUNT(DISTINCT artist) FROM libraries')
+        res.json({total: Number(result.rows[0].count)})
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
 const PORT = 3005;
 app.listen(PORT, () => {
     console.log(`Jem! Your server is running on port ${PORT}.`)
