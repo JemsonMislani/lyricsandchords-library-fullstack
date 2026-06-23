@@ -143,12 +143,25 @@ app.post('/createDataOfSong', verifyToken, async(req, res) => {
     }
 })
 
+// get data of song
 app.get('/getDataOfSong', verifyToken, async(req, res) => {
 
     try {
         const adminId = req.user.id;
         const result = await pool.query('SELECT * FROM libraries ORDER BY id ASC')
         res.json(result.rows)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
+// get total count of song
+app.get('/totalOfSong', verifyToken, async(req, res) => {
+
+    try {
+        const result = await pool.query('SELECT COUNT(*) FROM libraries')
+        res.json({total: Number(result.rows[0].count)})
     } catch (error) {
         console.log(error);
         res.status(500).send('Server Error');

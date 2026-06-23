@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 export default function AdminDashBoard(){
     const [username, setUserName] = useState('')
+    const [totalofSong, setTotalOfSong] = useState(0)
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -15,6 +16,21 @@ export default function AdminDashBoard(){
         })
         .then(result => {
             setUserName(result.data.username)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.get('http://localhost:3005/totalOfSong', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setTotalOfSong(result.data.total)
         })
         .catch(err => {
             console.log(err)
@@ -47,7 +63,7 @@ export default function AdminDashBoard(){
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>
                         <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
                         <p className='text-l text-white'>Total Songs:</p>
-                        <h2 className='text-2xl font-bold text-white'>143</h2>
+                        <h2 className='text-2xl font-bold text-white'>{totalofSong}</h2>
                         </div>
                         <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
                         <p className='text-l text-white'>Artists:</p>

@@ -5,7 +5,6 @@ import axios from "axios";
 export default function Songlists(){
     const [username, setUserName] = useState('')
     const [songlists, setSonglists] = useState([])
-    const [admin, setAdmin] = useState('null')
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -24,9 +23,6 @@ export default function Songlists(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        if(!admin){
-            return
-        }
         axios.get('http://localhost:3005/getDataOfSong', {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -38,8 +34,7 @@ export default function Songlists(){
         .catch(err => {
             console.log(err)
         })
-
-    })
+    }, [])
     return(
         <>
             <div className="flex h-screen bg-gray-100">
