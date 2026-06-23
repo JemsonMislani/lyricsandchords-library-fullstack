@@ -3,6 +3,7 @@ import LoginAccount from './LoginAcc'
 import RegisterAccount from './RegisterAcc'
 import AdminDashBoard from './AdminDashboard'
 import UserDashBoard from './UserDashboard'
+import Songlists from './Songlists'
 export default function App() {
 
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Route path='/register' element={<RegisterAccount />}/>
         <Route path='/adminDashboard' element={<AdminDashBoard />}/>
         <Route path='/userDashboard' element={<UserDashBoard />}/>
+        <Route path='/songlists' element={<Songlists />}/>
       </Routes>
       </BrowserRouter>
     </>

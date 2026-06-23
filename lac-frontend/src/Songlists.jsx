@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom'
-import axios from 'axios'
-import { useState } from 'react';
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default function AdminDashBoard(){
+export default function Songlists(){
     const [username, setUserName] = useState('')
 
     useEffect(() => {
@@ -20,7 +19,6 @@ export default function AdminDashBoard(){
             console.log(err)
         })
     }, [])
-    
     return(
         <>
             <div className="flex h-screen bg-gray-100">
@@ -44,20 +42,7 @@ export default function AdminDashBoard(){
                 <h1 className="text-2xl font-semibold mb-5">Welcome, {username}!</h1>
                     <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(3in, max-content))' }}>
                     </div>
-                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>
-                        <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
-                        <p className='text-l text-white'>Total Songs:</p>
-                        <h2 className='text-2xl font-bold text-white'>143</h2>
-                        </div>
-                        <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
-                        <p className='text-l text-white'>Artists:</p>
-                        <h2 className='text-2xl font-bold text-white'>70</h2>
-                        </div>
-                        <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
-                        <p className='text-l text-white'>Chords:</p>
-                        <h2 className='text-2xl font-bold text-white'>50</h2>
-                        </div>
-                    </div>
+                    <h1>song list here!</h1>
                 </main>
             </div>
         </>
