@@ -134,8 +134,8 @@ app.post('/createDataOfSong', verifyToken, async(req, res) => {
 
     try {
         const adminId = req.user.id;
-        const { title, artist, lyrics, chords, song_key } = req.body;
-        const result = await pool.query('INSERT INTO libraries (title, artist, lyrics, chords, song_key, created_by) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [ title, artist, lyrics, chords, song_key, adminId])
+        const { title, artist, lyrics, song_key } = req.body;
+        const result = await pool.query('INSERT INTO libraries (title, artist, lyrics, song_key, created_by) VALUES ($1, $2, $3, $4, $5 ) RETURNING *', [ title, artist, lyrics, song_key, adminId])
         res.json(result.rows[0])
     } catch (error) {
         console.log(error);
