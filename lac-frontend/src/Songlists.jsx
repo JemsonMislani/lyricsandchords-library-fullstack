@@ -4,6 +4,8 @@ import axios from "axios";
 
 export default function Songlists(){
     const [username, setUserName] = useState('')
+    const [songlists, setSonglists] = useState([])
+    const [admin, setAdmin] = useState('null')
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -19,6 +21,25 @@ export default function Songlists(){
             console.log(err)
         })
     }, [])
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        if(!admin){
+            return
+        }
+        axios.get('http://localhost:3005/getDataOfSong', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setSonglists(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+    })
     return(
         <>
             <div className="flex h-screen bg-gray-100">
@@ -39,10 +60,29 @@ export default function Songlists(){
                 </div>
                 </aside>
                 <main className="flex-1 p-6 overflow-auto">
-                <h1 className="text-2xl font-semibold mb-5">Welcome, {username}!</h1>
                     <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(3in, max-content))' }}>
                     </div>
-                    <h1>song list here!</h1>
+                    <div>
+                       <h1 className="text-2xl font-semibold mb-5"> List of songs</h1>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 mb-2 text-black text-l">
+                        <span className="font-bold">Title:</span>
+                        <span className="font-bold">Artist:</span>
+                        <span className="font-bold">Key Of:</span>
+                    </div>
+                    {
+                        songlists.map((sl) => (
+                            <div key={sl.id}
+                                className="grid grid-cols-3 gap-1 mb-1">
+                                <div className="bg-gray-900 text-white p-2 font-medium rounded ">{sl.title}
+                                </div>
+                                <div className="bg-gray-900 text-white p-2 font-medium rounded">{sl.artist}
+                                </div>
+                                <div className="bg-gray-900 text-white p-2 font-medium rounded">{sl.song_key}
+                                </div>
+                            </div>
+                        ))
+                    }
                 </main>
             </div>
         </>

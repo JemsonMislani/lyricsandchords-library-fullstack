@@ -143,6 +143,18 @@ app.post('/createDataOfSong', verifyToken, async(req, res) => {
     }
 })
 
+app.get('/getDataOfSong', verifyToken, async(req, res) => {
+
+    try {
+        const adminId = req.user.id;
+        const result = await pool.query('SELECT * FROM libraries ORDER BY id ASC')
+        res.json(result.rows)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
 const PORT = 3005;
 app.listen(PORT, () => {
     console.log(`Jem! Your server is running on port ${PORT}.`)
