@@ -168,11 +168,24 @@ app.get('/totalOfSong', verifyToken, async(req, res) => {
     }
 })
 
+// get total count of artist
 app.get('/totalOfArtist', verifyToken, async(req, res) => {
 
     try {
         const result = await pool.query('SELECT COUNT(DISTINCT artist) FROM libraries')
         res.json({total: Number(result.rows[0].count)})
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
+// get total of used chords
+app.get('/totalOfUsedChords', verifyToken, async(req, res) => {
+
+    try {
+        const result = await pool.query('SELECT COUNT(DISTINCT song_key) FROM libraries')
+        res.json({total: Number(result.rows[0].count)})    
     } catch (error) {
         console.log(error);
         res.status(500).send('Server Error');
