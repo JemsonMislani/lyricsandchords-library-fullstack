@@ -72,7 +72,7 @@ export default function AdminDashBoard(){
     
     return(
         <>
-            <div className="flex h-screen bg-gray-100">
+            <div className="flex h-screen bg-gray-100 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900">
                 {open && (
                     <div
                     className="fixed inset-0 bg-black/40 z-40 sm:hidden"
@@ -108,25 +108,25 @@ export default function AdminDashBoard(){
                 <div className="flex items-center justify-between mb-6 sm:hidden">
                 <button
                     onClick={() => setOpen(true)}
-                    className="text-2xl p-2 bg-gray-900 text-white rounded"
+                    className="text-2xl p-2 bg-sky-900 text-white rounded"
                 >
                     ☰
                 </button>
                 </div>
-                <h1 className="text-2xl font-semibold mb-5">Welcome, {username}!👋</h1>
+                <h1 className="text-3xl font-semibold mb-5 text-white">Welcome, {username}!👋</h1>
                     <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(3in, max-content))' }}>
                     </div>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>
-                        <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
-                        <p className='text-l text-white'>Total Songs:</p>
+                        <div className='bg-sky-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
+                        <p className='text-l text-white font-bold'>Total Songs:</p>
                         <h2 className='text-2xl font-bold text-white'>{totalofSong}</h2>
                         </div>
-                        <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
-                        <p className='text-l text-white'>Artists:</p>
+                        <div className='bg-sky-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
+                        <p className='text-l text-white font-bold'>Artists:</p>
                         <h2 className='text-2xl font-bold text-white'>{totalofArtist}</h2>
                         </div>
-                        <div className='bg-gray-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
-                        <p className='text-l text-white'>Chords:</p>
+                        <div className='bg-sky-900 backdrop-blur-xl border border-sky/10 p-5 rounded-xl'>
+                        <p className='text-l text-white font-bold'>Chords:</p>
                         <h2 className='text-2xl font-bold text-white'>{totalofUsedChords}</h2>
                         </div>
                     </div>

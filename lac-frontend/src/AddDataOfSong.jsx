@@ -32,7 +32,7 @@ export default function AddDataOfSongs(){
     
     return(
         <>
-            <div className="flex h-screen bg-gray-100">
+            <div className="flex h-screen bg-gray-100 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900">
                 {open && (
                     <div
                     className="fixed inset-0 bg-black/40 z-40 sm:hidden"
@@ -68,7 +68,7 @@ export default function AddDataOfSongs(){
                     <div className="flex items-center justify-between mb-6 sm:hidden">
                     <button
                         onClick={() => setOpen(true)}
-                        className="text-2xl p-2 bg-gray-900 text-white rounded"
+                        className="text-2xl p-2 bg-sky-900 text-white rounded"
                     >
                         ☰
                     </button>
@@ -76,13 +76,13 @@ export default function AddDataOfSongs(){
                     <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(3in, max-content))' }}>
                     </div>
                     <div>
-                       <h1 className="text-2xl font-semibold mb-5">Add a song(s)</h1>
+                       <h1 className="text-3xl font-semibold mb-5 text-white">Add a song</h1>
                     </div>
                     <form onSubmit={handleAddBtn}>
                         <div className='flex flex-col gap-1'>
                             <div className='w-full max-w-md'>
                                 <input 
-                                    className='border p-2 w-full bg-gray-900 text-white resize-none rounded'
+                                    className='p-2 w-full bg-gray-900 text-white resize-none rounded border border-gray-500'
                                     type="text" 
                                     placeholder='Title of song'
                                     value={title}
@@ -90,7 +90,7 @@ export default function AddDataOfSongs(){
                             </div>
                             <div className='w-full max-w-md'>
                                 <input 
-                                    className='border p-2 w-full bg-gray-900 text-white resize-none rounded'
+                                    className='p-2 w-full bg-gray-900 text-white resize-none rounded border border-gray-500'
                                     type="text" 
                                     placeholder='Artist'
                                     value={artist}
@@ -98,7 +98,7 @@ export default function AddDataOfSongs(){
                             </div>
                             <div className='w-full max-w-md'>
                                 <input 
-                                    className='border p-2 w-full bg-gray-900 text-white resize-none rounded'
+                                    className='p-2 w-full bg-gray-900 text-white resize-none rounded border border-gray-500'
                                     type="text" 
                                     placeholder='Key Of?'
                                     value={keyOf}
@@ -106,7 +106,7 @@ export default function AddDataOfSongs(){
                             </div>
                             <div className="w-1/1 h-[70vh]">
                             <textarea
-                                className="w-full h-full p-4 border rounded-lg bg-gray-900 text-white resize-none"
+                                className="w-full h-full p-4 border rounded-lg bg-gray-900 text-white resize-none border-gray-500"
                                 placeholder="Enter lyrics & chords here..."
                                 value={lyricsandchords}
                                 onChange={(e) => setLyricsAndChords(e.target.value)}

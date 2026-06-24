@@ -112,7 +112,7 @@ export default function ManageLibrary(){
 
     return(
         <>
-            <div className="flex h-screen bg-gray-100">
+            <div className="flex h-screen bg-gray-100 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900">
                 {open && (
                     <div
                     className="fixed inset-0 bg-black/40 z-40 sm:hidden"
@@ -149,41 +149,41 @@ export default function ManageLibrary(){
                     <div className="flex items-center justify-between mb-6 sm:hidden">
                     <button
                         onClick={() => setOpen(true)}
-                        className="text-2xl p-2 bg-gray-900 text-white rounded"
+                        className="text-2xl p-2 bg-sky-900 text-white rounded"
                     >
                         ☰
                     </button>
                     </div>
-                <h1 className="text-2xl font-semibold mb-5">Manage Songs</h1>
+                <h1 className="text-3xl font-semibold mb-5 text-white">Manage Songs</h1>
                     <div>
                     </div>
                     <div className="hidden sm:grid sm:grid-cols-4 gap-2 mb-2 text-black font-bold">
-                        <span className="font-bold">Title:</span>
-                        <span className="font-bold">Artist:</span>
-                        <span className="font-bold">Key Of:</span>
-                        <span className="font-bold">Action:</span>
+                        <span className="font-bold text-white">Title:</span>
+                        <span className="font-bold text-white">Artist:</span>
+                        <span className="font-bold text-white">Key Of:</span>
+                        <span className="font-bold text-white">Action:</span>
                     </div>
                     <div className="flex flex-col">
                         {
                             songlists.map((sl) => (
                                 <div key={sl.id}
-                                    className="bg-white sm:bg-transparent sm:grid sm:grid-cols-4 gap-1 p-3 sm:p-0 rounded shadow sm:shadow-none"
+                                    className="bg-white sm:bg-transparent sm:grid sm:grid-cols-4 gap-1 p-3 sm:p-0 rounded shadow sm:shadow-none mb-1"
                                 >
                                 {
                                     findId === sl.id ? 
                                     (<>
                                     <input 
-                                        className="border p-2 rounded w-full mt-1 mb-1"
+                                        className="border p-2 rounded w-full mt-1 mb-1 text-white bg-sky-900"
                                         type="text" 
                                         value={edittitle}
                                         onChange={(e) => setEditTitle(e.target.value)}/>
                                     <input 
-                                        className="border p-2 rounded w-full mt-1 mb-1"
+                                        className="border p-2 rounded w-full mt-1 mb-1 text-white bg-sky-900"
                                         type="text" 
                                         value={editartist}
                                         onChange={(e) => setEditArtist(e.target.value)}/>
                                     <input 
-                                        className="border p-2 rounded w-full mt-1 mb-1"
+                                        className="border p-2 rounded w-full mt-1 mb-1 text-white bg-sky-900"
                                         type="text" 
                                         value={editkeyOf}
                                         onChange={(e) => setEditKeyOf(e.target.value)}/>
@@ -202,16 +202,16 @@ export default function ManageLibrary(){
                                     </>)
                                     :
                                     (<>
-                                    <div className="bg-gray-900 text-white p-2 font-medium rounded flex mt-1 justify-between items-center">{sl.title}
+                                    <div className="bg-gray-900 border border-gray-500 text-white p-2 rounded flex mt-1 justify-between items-center">{sl.title}
                                         <label
                                             className="hover:bg-sky-500 cursor-pointer rounded text-sm hover:scale-110 transition"
                                             title="View lyrics"
                                             onClick={() => toggleViewLyrics(sl.id)}>👁️
                                         </label>
                                     </div>
-                                    <div className="bg-gray-900 text-white p-2 font-medium rounded flex mt-1 justify-between items-center">{sl.artist}
+                                    <div className="bg-gray-900 border border-gray-500 text-white p-2 rounded flex mt-1 justify-between items-center">{sl.artist}
                                     </div>
-                                    <div className="bg-gray-900 text-white p-2 font-medium rounded flex mt-1 justify-between items-center uppercase">{sl.song_key}
+                                    <div className="bg-gray-900 border border-gray-500 text-white p-2 rounded flex mt-1 justify-between items-center">{sl.song_key}
                                     </div>
                                     <div className="flex gap-1 justify-center items-center bg-sky-900 text-white p-2 rounded mt-1">
                                         <span

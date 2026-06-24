@@ -38,7 +38,7 @@ export default function Songlists(){
     }, [])
     return(
         <>
-            <div className="flex h-screen bg-gray-100">
+            <div className="flex h-screen bg-gray-100 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900">
                 {open && (
                     <div
                     className="fixed inset-0 bg-black/40 z-40 sm:hidden"
@@ -74,7 +74,7 @@ export default function Songlists(){
                     <div className="flex items-center justify-between mb-6 sm:hidden">
                     <button
                         onClick={() => setOpen(true)}
-                        className="text-2xl p-2 bg-gray-900 text-white rounded"
+                        className="text-2xl p-2 bg-sky-900 text-white rounded"
                     >
                         ☰
                     </button>
@@ -82,22 +82,40 @@ export default function Songlists(){
                     <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(3in, max-content))' }}>
                     </div>
                     <div>
-                       <h1 className="text-2xl font-semibold mb-5"> List of songs</h1>
+                       <h1 className="text-3xl font-semibold mb-5 text-white"> List of songs</h1>
                     </div>
-                    <div className="grid grid-cols-3 gap-2 mb-2 text-black text-l">
+                    <div className="hidden sm:grid sm:grid-cols-3 gap-2 mb-2 text-white px-3">
                         <span className="font-bold">Title:</span>
                         <span className="font-bold">Artist:</span>
                         <span className="font-bold">Key Of:</span>
                     </div>
                     {
                         songlists.map((sl) => (
-                            <div key={sl.id}
-                                className="grid grid-cols-3 gap-1 mb-1">
-                                <div className="bg-gray-900 text-white p-2 font-medium rounded ">{sl.title}
+                            <div
+                                key={sl.id}
+                                className="bg-gray-900 text-white p-3 rounded mb-2 border border-gray-700"
+                            >
+                                <div className="sm:hidden space-y-1">
+                                <div>
+                                    <span className="text-gray-400 text-xs">Title:</span>
+                                    <div className="font-medium">{sl.title}</div>
                                 </div>
-                                <div className="bg-gray-900 text-white p-2 font-medium rounded">{sl.artist}
+
+                                <div>
+                                    <span className="text-gray-400 text-xs">Artist:</span>
+                                    <div>{sl.artist}</div>
                                 </div>
-                                <div className="bg-gray-900 text-white p-2 font-medium rounded uppercase">{sl.song_key}
+
+                                <div>
+                                    <span className="text-gray-400 text-xs">Key Of:</span>
+                                    <div className="uppercase">{sl.song_key}</div>
+                                </div>
+                                </div>
+
+                                <div className="hidden sm:grid sm:grid-cols-3 gap-2">
+                                    <div>{sl.title}</div>
+                                    <div>{sl.artist}</div>
+                                    <div className="uppercase">{sl.song_key}</div>
                                 </div>
                             </div>
                         ))
