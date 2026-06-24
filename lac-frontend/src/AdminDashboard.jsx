@@ -84,9 +84,9 @@ export default function AdminDashBoard(){
                     <Link 
                         to={'/addsong'}
                         className="block px-4 py-2 rounded hover:bg-gray-700">➕ Add songs<label className="text-white m-1 p-1"></label></Link>
-                    <a 
+                    <Link 
                         to={'/manageLibrary'}
-                        className="block px-4 py-2 rounded hover:bg-gray-700">🙍🏻‍♂️ Manage Library</a>
+                        className="block px-4 py-2 rounded hover:bg-gray-700">🙍🏻‍♂️ Manage Library</Link>
                 </nav>
                 <div className="p-4 border-t border-gray-700 text-sm text-gray-400">
                 © 2026 Jemson Mislani

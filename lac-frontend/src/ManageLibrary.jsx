@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaCheck, FaTimes } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
 export default function ManageLibrary(){
     const [songlists, setSonglists] = useState([])
+    const [findId, setFindId] = useState(null)
+    const [edittitle, setEditTitle] = useState('')
+    const [editartist, setEditArtist] = useState('')
+    const [editkeyOf, setEditKeyOf] = useState('')
 
         useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -21,6 +26,38 @@ export default function ManageLibrary(){
         })
     }, [])
 
+    const handleEditIcon = (s) => {
+        setFindId(s.id)
+        setEditTitle(s.title)
+        setEditArtist(s.artist)
+        setEditKeyOf(s.song_key)
+    }
+
+    const handleEditedSong = (id) => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.put('http://localhost:3005/editDataOfSong/' + id, {
+            title: edittitle,
+            artist: editartist,
+            song_key: editkeyOf
+        },{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setSonglists(prev => prev.map(sl => sl.id === id ?
+                result.data : sl
+            ))
+            setFindId(null)
+            setEditTitle('')
+            setEditArtist('')
+            setEditKeyOf('')
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
     return(
         <>
             <div className="flex h-screen bg-gray-100">
@@ -36,9 +73,9 @@ export default function ManageLibrary(){
                     <Link 
                         to={'/addsong'}
                         className="block px-4 py-2 rounded hover:bg-gray-700">➕ Add songs<label className="text-white m-1 p-1"></label></Link>
-                    <a 
+                    <Link 
                         to={'/manageLibrary'}
-                        className="block px-4 py-2 rounded hover:bg-gray-700">🙍🏻‍♂️ Manage Library</a>
+                        className="block px-4 py-2 rounded hover:bg-gray-700">🙍🏻‍♂️ Manage Library</Link>
                 </nav>
                 <div className="p-4 border-t border-gray-700 text-sm text-gray-400">
                 © 2026 Jemson Mislani
@@ -58,16 +95,54 @@ export default function ManageLibrary(){
                             songlists.map((sl) => (
                                 <div key={sl.id}
                                     className="grid grid-cols-4 gap-1 mb-1">
+                                {
+                                    findId === sl.id ? 
+                                    (<>
+                                    <input 
+                                        className="border p-2 rounded w-full"
+                                        type="text" 
+                                        value={edittitle}
+                                        onChange={(e) => setEditTitle(e.target.value)}/>
+                                    <input 
+                                        className="border p-2 rounded w-full"
+                                        type="text" 
+                                        value={editartist}
+                                        onChange={(e) => setEditArtist(e.target.value)}/>
+                                    <input 
+                                        className="border p-2 rounded w-full"
+                                        type="text" 
+                                        value={editkeyOf}
+                                        onChange={(e) => setEditKeyOf(e.target.value)}/>
+                                    <div 
+                                        className="flex gap-2 justify-center items-center bg-sky-900 text-white p-2 rounded w-full">
+                                    <button
+                                        className="text-green-600 hover:text-green-500 text-xl cursor-pointer"
+                                        onClick={() => handleEditedSong(sl.id)}><FaCheck />
+                                    </button>
+                                    <button
+                                        className="text-red-600 hover:text-red-500 text-xl cursor-pointer"
+                                        onClick={() => setFindId(null)}
+                                        ><FaTimes />
+                                    </button>
+                                    </div>
+                                    </>)
+                                    :
+                                    (<>
                                     <div className="bg-gray-900 text-white p-2 font-medium rounded ">{sl.title}
                                     </div>
                                     <div className="bg-gray-900 text-white p-2 font-medium rounded">{sl.artist}
                                     </div>
                                     <div className="bg-gray-900 text-white p-2 font-medium rounded">{sl.song_key}
                                     </div>
-                                    <div className="flex justify-center items-center gap-3 bg-sky-900 text-white p-2 font-medium rounded">
-                                        <span className="text-blue-400 hover:text-blue-300"><FaEdit /></span>
-                                        <span className="text-red-400 hover:text-red-400"><FaTrash /></span>
+                                    <div className="flex justify-center items-center gap-1 bg-sky-900 text-white p-2 font-medium rounded">
+                                        <span
+                                            onClick={() => handleEditIcon(sl)}
+                                            className="flex justify-center items-center gap-1 bg-green-700 text-white rounded text-blue-400 hover:text-green-300 px-1 cursor-pointer">Edit<FaEdit /></span>
+                                        <span 
+                                            className="flex        justify-center items-center gap-1 bg-red-900 text-white text-red-400 hover:text-red-300 px-1 cursor-pointer">Delete<FaTrash /></span>
                                     </div>
+                                    </>)
+                                }
                                 </div>
                             ))
                         }

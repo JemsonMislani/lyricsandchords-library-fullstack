@@ -143,6 +143,21 @@ app.post('/createDataOfSong', verifyToken, async(req, res) => {
     }
 })
 
+app.put('/editDataOfSong/:id', verifyToken, async(req, res) => {
+
+    try {
+        const { id } = req.params;
+        const { title, artist, song_key } = req.body
+        const result = await pool.query('UPDATE libraries SET title = $1, artist = $2, song_key = $3 WHERE id = $4 RETURNING *', [ title, artist, song_key, id])
+        if(result.rows.length === 0){
+            return res.status(404).json({message: 'Song not found'})
+        }
+        res.json(result.rows[0])
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');    }
+})
+
 // get data of song
 app.get('/getDataOfSong', verifyToken, async(req, res) => {
 
