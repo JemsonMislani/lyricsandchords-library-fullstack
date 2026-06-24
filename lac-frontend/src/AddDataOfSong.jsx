@@ -60,7 +60,6 @@ export default function AddDataOfSongs(){
                     </div>
                     <form onSubmit={handleAddBtn}>
                         <div className='flex flex-col gap-1'>
-                            <label className='font-bold'>Title</label>
                             <div>
                                 <input 
                                     className='border p-2 w-100 bg-gray-900 text-white resize-none rounded'
@@ -69,7 +68,6 @@ export default function AddDataOfSongs(){
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}/>
                             </div>
-                            <label className='font-bold'>Artist</label>
                             <div>
                                 <input 
                                     className='border p-2 w-100 bg-gray-900 text-white resize-none rounded'
@@ -78,7 +76,6 @@ export default function AddDataOfSongs(){
                                     value={artist}
                                     onChange={(e) => setArtist(e.target.value)}/>
                             </div>
-                            <label className='font-bold'>Key Of</label>
                             <div>
                                 <input 
                                     className='border p-2 w-100 bg-gray-900 text-white resize-none rounded'
@@ -87,7 +84,6 @@ export default function AddDataOfSongs(){
                                     value={keyOf}
                                     onChange={(e) => setKeyOf(e.target.value)}/>
                             </div>
-                            <label className='font-bold'>Lyrics & Chords</label>
                             <div className="w-1/1 h-[70vh]">
                             <textarea
                                 className="w-full h-full p-4 border rounded-lg bg-gray-900 text-white resize-none"
