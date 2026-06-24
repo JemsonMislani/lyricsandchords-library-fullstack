@@ -77,7 +77,7 @@ export default function Songlists(){
                                 </div>
                                 <div className="bg-gray-900 text-white p-2 font-medium rounded">{sl.artist}
                                 </div>
-                                <div className="bg-gray-900 text-white p-2 font-medium rounded">{sl.song_key}
+                                <div className="bg-gray-900 text-white p-2 font-medium rounded uppercase">{sl.song_key}
                                 </div>
                             </div>
                         ))
