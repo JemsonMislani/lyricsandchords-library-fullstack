@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaEdit, FaTrash, FaCheck, FaTimes } from "react-icons/fa";
-import { useParams } from "react-router-dom";
 
 export default function ManageLibrary(){
     const [songlists, setSonglists] = useState([])
@@ -10,6 +9,9 @@ export default function ManageLibrary(){
     const [edittitle, setEditTitle] = useState('')
     const [editartist, setEditArtist] = useState('')
     const [editkeyOf, setEditKeyOf] = useState('')
+    const [findSongId, setfindSongId] = useState(null)
+    const [editLyricsMode, setEditLyricsMode] = useState(null)
+    const [editlyrics, setEditLyrics] = useState('')
 
         useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -72,6 +74,35 @@ export default function ManageLibrary(){
         .then(result => {
             setSonglists(prev => prev.filter(sl => sl.id !== id))
             result.data
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const toggleViewLyrics = (id) => {
+        setfindSongId(prev => prev === id ? null : id)
+    }
+
+    const handleEditLyrics = (edit) => {
+        setEditLyricsMode(edit.id)
+        setEditLyrics(edit.lyrics)
+    }
+
+    const handleSaveEditedLyrics = (id) => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.put('http://localhost:3005/editLyrics/' + id, {
+            lyrics: editlyrics
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setSonglists(prev => prev.map(sl => sl.id === id ? 
+                result.data : sl
+            ))
+            setEditLyricsMode(null)
         })
         .catch(err => {
             console.log(err)
@@ -148,7 +179,12 @@ export default function ManageLibrary(){
                                     </>)
                                     :
                                     (<>
-                                    <div className="bg-gray-900 text-white p-2 font-medium rounded ">{sl.title}
+                                    <div className="bg-gray-900 text-white p-2 font-medium rounded flex justify-between items-center">{sl.title}
+                                        <label
+                                            className="hover:bg-sky-500 cursor-pointer rounded text-sm hover:scale-110 transition"
+                                            title="View lyrics"
+                                            onClick={() => toggleViewLyrics(sl.id)}>👁️
+                                        </label>
                                     </div>
                                     <div className="bg-gray-900 text-white p-2 font-medium rounded">{sl.artist}
                                     </div>
@@ -162,6 +198,49 @@ export default function ManageLibrary(){
                                             className="flex        justify-center items-center gap-1 bg-red-900 text-white text-red-400 hover:text-red-300 px-1 cursor-pointer"
                                             onClick={() => handleDeleteBtn(sl.id)}>Delete<FaTrash /></span>
                                     </div>
+                                    {
+                                        findSongId === sl.id && (
+                                            <div className="col-span-4 bg-gray-800 text-white p-4 rounded mb-2 whitespace-pre-line">
+                                            <div className="flex justify-between items-center">
+                                                <div className="font-bold mb-2">Lyrics & Chords
+                                                </div>
+                                                <span
+                                                    onClick={() => handleEditLyrics(sl)}
+                                                    className="flex justify-center items-center w-15 gap-1 bg-green-700 text-white rounded text-blue-400 hover:text-green-300 px-1 cursor-pointer">Edit<FaEdit />
+                                                </span>
+                                            </div>
+                                            <div className="font-bold mb-2 underline">Title: {sl.title}
+                                            </div>
+                                                {
+                                                    editLyricsMode === sl.id ? 
+                                                    (<>
+                                                    <textarea 
+                                                        className="w-full h-96 p-2 bg-gray-900 text-white font-mono rounded"
+                                                        value={editlyrics}
+                                                        onChange={(e) => setEditLyrics(e.target.value)}
+                                                    />
+                                                    <div className="mt-4 flex gap-2">
+                                                        <button
+                                                            className="text-green-600 hover:text-green-500 text-xl cursor-pointer"
+                                                            onClick={() => handleSaveEditedLyrics(sl.id)}><FaCheck />
+                                                        </button>
+                                                        <button
+                                                            className="text-red-400 hover:text-red-500 text-xl cursor-pointer"
+                                                            onClick={() => setEditLyricsMode(null)}
+                                                        ><FaTimes />
+                                                        </button>
+                                                    </div>
+                                                    </>)
+                                                    :
+                                                    (<>
+                                                    <div className="whitespace-pre-wrap font-mono leading-7">
+                                                        {sl.lyrics}
+                                                    </div>
+                                                    </>)
+                                                }
+                                            </div>
+                                        )
+                                    }
                                     </>)
                                 }
                                 </div>

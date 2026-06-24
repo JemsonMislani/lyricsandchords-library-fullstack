@@ -160,6 +160,19 @@ app.put('/editDataOfSong/:id', verifyToken, async(req, res) => {
     }
 })
 
+// edit lyrics 
+app.put('/editLyrics/:id', verifyToken, async(req, res) => {
+
+    try {
+        const { id } = req.params;
+        const { lyrics } = req.body
+        const result = await pool.query('UPDATE libraries SET lyrics = $1 WHERE id = $2 RETURNING *', [ lyrics, id])
+        res.json(result.rows[0])
+    } catch (error) {
+                console.log(error);
+        res.status(500).send('Server Error');    }
+})
+
 // delete data of song
 app.delete('/deleteDataOfSong/:id', verifyToken, async(req, res) => {
 
