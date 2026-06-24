@@ -211,7 +211,7 @@ export default function ManageLibrary(){
                                     </div>
                                     <div className="bg-gray-900 border border-gray-500 text-white p-2 rounded flex mt-1 justify-between items-center">{sl.artist}
                                     </div>
-                                    <div className="bg-gray-900 border border-gray-500 text-white p-2 rounded flex mt-1 justify-between items-center">{sl.song_key}
+                                    <div className="bg-gray-900 border border-gray-500 text-white p-2 rounded flex mt-1 justify-between items-center uppercase">{sl.song_key}
                                     </div>
                                     <div className="flex gap-1 justify-center items-center bg-sky-900 text-white p-2 rounded mt-1">
                                         <span
