@@ -143,6 +143,7 @@ app.post('/createDataOfSong', verifyToken, async(req, res) => {
     }
 })
 
+// edit, update data of song
 app.put('/editDataOfSong/:id', verifyToken, async(req, res) => {
 
     try {
@@ -155,7 +156,24 @@ app.put('/editDataOfSong/:id', verifyToken, async(req, res) => {
         res.json(result.rows[0])
     } catch (error) {
         console.log(error);
-        res.status(500).send('Server Error');    }
+        res.status(500).send('Server Error');    
+    }
+})
+
+// delete data of song
+app.delete('/deleteDataOfSong/:id', verifyToken, async(req, res) => {
+
+    try {
+        const { id } = req.params;
+        const result = await pool.query('DELETE FROM libraries WHERE id=$1 RETURNING *', [ id ])
+        if(result.rows.length === 0){
+            return res.status(404).json({message: 'No data found'})
+        }
+        res.json({message: 'Data deleted', data: result.rows[0]})
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');   
+    }
 })
 
 // get data of song

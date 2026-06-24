@@ -34,6 +34,10 @@ export default function ManageLibrary(){
     }
 
     const handleEditedSong = (id) => {
+        if(!edittitle.trim() || !editartist.trim() || !editkeyOf.trim()){
+            alert('Please fillout field before saving')
+            return
+        }
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
         axios.put('http://localhost:3005/editDataOfSong/' + id, {
             title: edittitle,
@@ -52,6 +56,22 @@ export default function ManageLibrary(){
             setEditTitle('')
             setEditArtist('')
             setEditKeyOf('')
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const handleDeleteBtn = (id) => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.delete('http://localhost:3005/deleteDataOfSong/' + id, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setSonglists(prev => prev.filter(sl => sl.id !== id))
+            result.data
         })
         .catch(err => {
             console.log(err)
@@ -139,7 +159,8 @@ export default function ManageLibrary(){
                                             onClick={() => handleEditIcon(sl)}
                                             className="flex justify-center items-center gap-1 bg-green-700 text-white rounded text-blue-400 hover:text-green-300 px-1 cursor-pointer">Edit<FaEdit /></span>
                                         <span 
-                                            className="flex        justify-center items-center gap-1 bg-red-900 text-white text-red-400 hover:text-red-300 px-1 cursor-pointer">Delete<FaTrash /></span>
+                                            className="flex        justify-center items-center gap-1 bg-red-900 text-white text-red-400 hover:text-red-300 px-1 cursor-pointer"
+                                            onClick={() => handleDeleteBtn(sl.id)}>Delete<FaTrash /></span>
                                     </div>
                                     </>)
                                 }
