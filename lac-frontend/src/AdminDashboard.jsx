@@ -8,6 +8,7 @@ export default function AdminDashBoard(){
     const [totalofSong, setTotalOfSong] = useState(0)
     const [totalofArtist, setTotalOfArtist] = useState(0)
     const [totalofUsedChords, setTotalOfUsedChords] = useState(0)
+    const [open, setOpen] = useState(false);  
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -72,7 +73,18 @@ export default function AdminDashBoard(){
     return(
         <>
             <div className="flex h-screen bg-gray-100">
-                <aside className="w-64 bg-gray-900 text-white flex flex-col">
+                {open && (
+                    <div
+                    className="fixed inset-0 bg-black/40 z-40 sm:hidden"
+                    onClick={() => setOpen(false)}
+                    />
+                )}
+                <aside className={`
+                    fixed sm:static z-50 top-0 left-0 h-full w-64 bg-gray-900 text-white flex flex-col
+                    transform transition-transform duration-300
+                    ${open ? "translate-x-0" : "-translate-x-full"}
+                    sm:translate-x-0
+                    `}>
                 <div className="text-2xl font-bold p-6 border-b border-gray-700">Admin Dashboard</div>
                 <nav className="flex-1 p-4 space-y-2">
                     <Link 
@@ -93,7 +105,15 @@ export default function AdminDashBoard(){
                 </div>
                 </aside>
                 <main className="flex-1 p-6 overflow-auto">
-                <h1 className="text-2xl font-semibold mb-5">Welcome, {username}!</h1>
+                <div className="flex items-center justify-between mb-6 sm:hidden">
+                <button
+                    onClick={() => setOpen(true)}
+                    className="text-2xl p-2 bg-gray-900 text-white rounded"
+                >
+                    ☰
+                </button>
+                </div>
+                <h1 className="text-2xl font-semibold mb-5">Welcome, {username}!👋</h1>
                     <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(3in, max-content))' }}>
                     </div>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>

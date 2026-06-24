@@ -8,6 +8,7 @@ export default function AddDataOfSongs(){
     const [artist, setArtist] = useState('')
     const [keyOf, setKeyOf] = useState('')
     const [lyricsandchords, setLyricsAndChords] = useState('')
+    const [open, setOpen] = useState(false);  
 
     const handleAddBtn = () => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -32,7 +33,18 @@ export default function AddDataOfSongs(){
     return(
         <>
             <div className="flex h-screen bg-gray-100">
-                <aside className="w-64 bg-gray-900 text-white flex flex-col">
+                {open && (
+                    <div
+                    className="fixed inset-0 bg-black/40 z-40 sm:hidden"
+                    onClick={() => setOpen(false)}
+                    />
+                )}
+                <aside className={`
+                    fixed sm:static z-50 top-0 left-0 h-full w-64 bg-gray-900 text-white flex flex-col
+                    transform transition-transform duration-300
+                    ${open ? "translate-x-0" : "-translate-x-full"}
+                    sm:translate-x-0
+                `}>
                 <div className="text-2xl font-bold p-6 border-b border-gray-700">Admin Dashboard</div>
                 <nav className="flex-1 p-4 space-y-2">
                     <Link 
@@ -53,6 +65,14 @@ export default function AddDataOfSongs(){
                 </div>
                 </aside>
                 <main className="flex-1 p-6 overflow-auto">
+                    <div className="flex items-center justify-between mb-6 sm:hidden">
+                    <button
+                        onClick={() => setOpen(true)}
+                        className="text-2xl p-2 bg-gray-900 text-white rounded"
+                    >
+                        ☰
+                    </button>
+                    </div>
                     <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(3in, max-content))' }}>
                     </div>
                     <div>
@@ -60,25 +80,25 @@ export default function AddDataOfSongs(){
                     </div>
                     <form onSubmit={handleAddBtn}>
                         <div className='flex flex-col gap-1'>
-                            <div>
+                            <div className='w-full max-w-md'>
                                 <input 
-                                    className='border p-2 w-100 bg-gray-900 text-white resize-none rounded'
+                                    className='border p-2 w-full bg-gray-900 text-white resize-none rounded'
                                     type="text" 
                                     placeholder='Title of song'
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}/>
                             </div>
-                            <div>
+                            <div className='w-full max-w-md'>
                                 <input 
-                                    className='border p-2 w-100 bg-gray-900 text-white resize-none rounded'
+                                    className='border p-2 w-full bg-gray-900 text-white resize-none rounded'
                                     type="text" 
                                     placeholder='Artist'
                                     value={artist}
                                     onChange={(e) => setArtist(e.target.value)}/>
                             </div>
-                            <div>
+                            <div className='w-full max-w-md'>
                                 <input 
-                                    className='border p-2 w-100 bg-gray-900 text-white resize-none rounded'
+                                    className='border p-2 w-full bg-gray-900 text-white resize-none rounded'
                                     type="text" 
                                     placeholder='Key Of?'
                                     value={keyOf}

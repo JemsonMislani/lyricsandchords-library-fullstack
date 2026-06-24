@@ -12,6 +12,7 @@ export default function ManageLibrary(){
     const [findSongId, setfindSongId] = useState(null)
     const [editLyricsMode, setEditLyricsMode] = useState(null)
     const [editlyrics, setEditLyrics] = useState('')
+    const [open, setOpen] = useState(false);
 
         useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -112,7 +113,19 @@ export default function ManageLibrary(){
     return(
         <>
             <div className="flex h-screen bg-gray-100">
-                <aside className="w-64 bg-gray-900 text-white flex flex-col">
+                {open && (
+                    <div
+                    className="fixed inset-0 bg-black/40 z-40 sm:hidden"
+                    onClick={() => setOpen(false)}
+                    />
+                )}
+                <aside className={`
+                    fixed sm:static z-50 top-0 left-0 h-full w-64
+                    bg-gray-900 text-white flex flex-col
+                    transform transition-transform duration-300 ease-in-out
+                    ${open ? "translate-x-0" : "-translate-x-full"}
+                    sm:translate-x-0
+                `}>
                 <div className="text-2xl font-bold p-6 border-b border-gray-700">Admin Dashboard</div>
                 <nav className="flex-1 p-4 space-y-2">
                     <Link 
@@ -132,40 +145,50 @@ export default function ManageLibrary(){
                 © 2026 Jemson Mislani
                 </div>
                 </aside>
-                <main className="flex-1 p-6 overflow-auto">
-                <h1 className="text-2xl font-semibold mb-5">Manage Songs</h1>
-                    <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(3in, max-content))' }}>
+                <main className="flex-1 p-4 sm:p-6 overflow-auto">
+                    <div className="flex items-center justify-between mb-6 sm:hidden">
+                    <button
+                        onClick={() => setOpen(true)}
+                        className="text-2xl p-2 bg-gray-900 text-white rounded"
+                    >
+                        ☰
+                    </button>
                     </div>
-                    <div className="grid grid-cols-4 gap-2 mb-2 text-black text-l">
+                <h1 className="text-2xl font-semibold mb-5">Manage Songs</h1>
+                    <div>
+                    </div>
+                    <div className="hidden sm:grid sm:grid-cols-4 gap-2 mb-2 text-black font-bold">
                         <span className="font-bold">Title:</span>
                         <span className="font-bold">Artist:</span>
                         <span className="font-bold">Key Of:</span>
                         <span className="font-bold">Action:</span>
                     </div>
+                    <div className="flex flex-col">
                         {
                             songlists.map((sl) => (
                                 <div key={sl.id}
-                                    className="grid grid-cols-4 gap-1 mb-1">
+                                    className="bg-white sm:bg-transparent sm:grid sm:grid-cols-4 gap-1 p-3 sm:p-0 rounded shadow sm:shadow-none"
+                                >
                                 {
                                     findId === sl.id ? 
                                     (<>
                                     <input 
-                                        className="border p-2 rounded w-full"
+                                        className="border p-2 rounded w-full mt-1 mb-1"
                                         type="text" 
                                         value={edittitle}
                                         onChange={(e) => setEditTitle(e.target.value)}/>
                                     <input 
-                                        className="border p-2 rounded w-full"
+                                        className="border p-2 rounded w-full mt-1 mb-1"
                                         type="text" 
                                         value={editartist}
                                         onChange={(e) => setEditArtist(e.target.value)}/>
                                     <input 
-                                        className="border p-2 rounded w-full"
+                                        className="border p-2 rounded w-full mt-1 mb-1"
                                         type="text" 
                                         value={editkeyOf}
                                         onChange={(e) => setEditKeyOf(e.target.value)}/>
                                     <div 
-                                        className="flex gap-2 justify-center items-center bg-sky-900 text-white p-2 rounded w-full">
+                                        className="flex gap-2 justify-center items-center bg-sky-900 text-white p-2 rounded w-full mt-1 mb-1">
                                     <button
                                         className="text-green-600 hover:text-green-500 text-xl cursor-pointer"
                                         onClick={() => handleEditedSong(sl.id)}><FaCheck />
@@ -179,34 +202,35 @@ export default function ManageLibrary(){
                                     </>)
                                     :
                                     (<>
-                                    <div className="bg-gray-900 text-white p-2 font-medium rounded flex justify-between items-center">{sl.title}
+                                    <div className="bg-gray-900 text-white p-2 font-medium rounded flex mt-1 justify-between items-center">{sl.title}
                                         <label
                                             className="hover:bg-sky-500 cursor-pointer rounded text-sm hover:scale-110 transition"
                                             title="View lyrics"
                                             onClick={() => toggleViewLyrics(sl.id)}>👁️
                                         </label>
                                     </div>
-                                    <div className="bg-gray-900 text-white p-2 font-medium rounded">{sl.artist}
+                                    <div className="bg-gray-900 text-white p-2 font-medium rounded flex mt-1 justify-between items-center">{sl.artist}
                                     </div>
-                                    <div className="bg-gray-900 text-white p-2 font-medium rounded uppercase">{sl.song_key}
+                                    <div className="bg-gray-900 text-white p-2 font-medium rounded flex mt-1 justify-between items-center uppercase">{sl.song_key}
                                     </div>
-                                    <div className="flex justify-center items-center gap-1 bg-sky-900 text-white p-2 font-medium rounded">
+                                    <div className="flex gap-1 justify-center items-center bg-sky-900 text-white p-2 rounded mt-1">
                                         <span
                                             onClick={() => handleEditIcon(sl)}
-                                            className="flex justify-center items-center gap-1 bg-green-700 text-white rounded text-blue-400 hover:text-green-300 px-1 cursor-pointer">Edit<FaEdit /></span>
+                                            className="flex items-center gap-1 bg-green-700 px-2 py-1 rounded cursor-pointer"
+                                            >Edit<FaEdit /></span>
                                         <span 
-                                            className="flex        justify-center items-center gap-1 bg-red-900 text-white text-red-400 hover:text-red-300 px-1 cursor-pointer"
+                                            className="flex items-center gap-1 bg-red-900 px-2 py-1 rounded cursor-pointer"
                                             onClick={() => handleDeleteBtn(sl.id)}>Delete<FaTrash /></span>
                                     </div>
                                     {
                                         findSongId === sl.id && (
-                                            <div className="col-span-4 bg-gray-800 text-white p-4 rounded mb-2 whitespace-pre-line">
-                                            <div className="flex justify-between items-center">
+                                            <div className="col-span-4 bg-gray-800 text-white p-4 rounded mt-3">
+                                            <div className="flex justify-between items-center mb-2">
                                                 <div className="font-bold mb-2">Lyrics & Chords
                                                 </div>
                                                 <span
                                                     onClick={() => handleEditLyrics(sl)}
-                                                    className="flex justify-center items-center w-15 gap-1 bg-green-700 text-white rounded text-blue-400 hover:text-green-300 px-1 cursor-pointer">Edit<FaEdit />
+                                                    className="flex items-center gap-1 bg-green-700 px-2 py-1 rounded cursor-pointer">Edit<FaEdit />
                                                 </span>
                                             </div>
                                             <div className="font-bold mb-2 underline">Title: {sl.title}
@@ -215,11 +239,11 @@ export default function ManageLibrary(){
                                                     editLyricsMode === sl.id ? 
                                                     (<>
                                                     <textarea 
-                                                        className="w-full h-96 p-2 bg-gray-900 text-white font-mono rounded"
+                                                        className="w-full h-80 p-2 bg-gray-900 text-white rounded"
                                                         value={editlyrics}
                                                         onChange={(e) => setEditLyrics(e.target.value)}
                                                     />
-                                                    <div className="mt-4 flex gap-2">
+                                                    <div className="flex gap-2 mt-3">
                                                         <button
                                                             className="text-green-600 hover:text-green-500 text-xl cursor-pointer"
                                                             onClick={() => handleSaveEditedLyrics(sl.id)}><FaCheck />
@@ -246,6 +270,7 @@ export default function ManageLibrary(){
                                 </div>
                             ))
                         }
+                    </div>
                 </main>
             </div>
         </>
