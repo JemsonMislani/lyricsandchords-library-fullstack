@@ -93,7 +93,7 @@ export default function Songlists(){
                         songlists.map((sl) => (
                             <div
                                 key={sl.id}
-                                className="bg-gray-900 text-white p-3 rounded mb-2 border border-gray-700"
+                                className="bg-gray-900 text-white p-3 rounded mb-1 border border-gray-700"
                             >
                                 <div className="sm:hidden space-y-1">
                                 <div>
