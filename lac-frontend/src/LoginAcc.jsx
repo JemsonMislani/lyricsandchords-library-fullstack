@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import './LoginAcc.css'
 
 export default function LoginAccount(){
     const [user, setUser] = useState(null)
@@ -9,6 +11,7 @@ export default function LoginAccount(){
     const [password, setPassword] = useState('')
     const [remember, setRemember] = useState(false)
     const nav = useNavigate()
+    const [showpass, setShowPass] = useState(false)
 
     const handleLoginBtn = (e) => {
         e.preventDefault();
@@ -68,12 +71,19 @@ export default function LoginAccount(){
                                 placeholder="Enter email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}/>
-                            <input
+                            <div className='relative'>
+                                <input
                                 className='w-full py-3 px-3 bg-white/80 border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500' 
-                                type="password" 
+                                type={showpass ? 'text' : 'password'} 
                                 placeholder="Enter password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}/>
+                                <div 
+                                    className='absolute top-3.5 right-4 text-2xl cursor-pointer text-sky-900'
+                                    onClick={() => setShowPass(!showpass)}>
+                                    {showpass ? <FaEyeSlash /> : <FaEye />}
+                                </div>
+                            </div>
                             <div className='flex items-center gap-2 text-sm text-gray-700'>
                                 <input
                                 type="checkbox"
