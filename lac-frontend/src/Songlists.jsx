@@ -6,6 +6,8 @@ export default function Songlists(){
     const [username, setUserName] = useState('')
     const [songlists, setSonglists] = useState([])
     const [open, setOpen] = useState(false);  
+    const [searchsongLists, setSearchSongLists] = useState('')
+    const [songlistsdata, setSonglistsData] = useState([])
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -36,6 +38,37 @@ export default function Songlists(){
             console.log(err)
         })
     }, [])
+
+    const handleSearchInp = () => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.get('http://localhost:3005/searchSongTitleArtistKey', {
+            params: {searchSongLists: searchsongLists},
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setSonglistsData(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const handleSearchedInp = searchsongLists.trim() ? songlistsdata : songlists
+
+    useEffect(() => {
+        const delaySearch = setTimeout(() => {
+            if(searchsongLists){
+                handleSearchInp()
+            } else {
+                setSonglistsData([])
+            }
+        }, 300)
+
+        return () => clearTimeout(delaySearch)
+    }, [searchsongLists])
+
     return(
         <>
             <div className="flex h-screen bg-gray-100 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900">
@@ -84,13 +117,21 @@ export default function Songlists(){
                     <div>
                        <h1 className="text-3xl font-semibold mb-5 text-white"> List of songs</h1>
                     </div>
+                    <div className="w-full max-w-md flex justify-center items-center gap-2">
+                        <input 
+                            className="p-2 w-full bg-gray-900 text-white resize-none rounded border border-gray-500 mb-2"
+                            type="text"
+                            placeholder="Search Title, Artist, Key of song"
+                            value={searchsongLists}
+                            onChange={(e) => setSearchSongLists(e.target.value)}/>
+                    </div>
                     <div className="hidden sm:grid sm:grid-cols-3 gap-2 mb-2 text-white px-3">
                         <span className="font-bold">Title:</span>
                         <span className="font-bold">Artist:</span>
                         <span className="font-bold">Key Of:</span>
                     </div>
                     {
-                        songlists.map((sl) => (
+                        handleSearchedInp.map((sl) => (
                             <div
                                 key={sl.id}
                                 className="bg-gray-900 text-white p-3 rounded mb-1 border border-gray-700"

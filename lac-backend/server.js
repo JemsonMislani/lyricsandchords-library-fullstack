@@ -251,6 +251,21 @@ app.get('/searchSongTitle', verifyToken, async(req, res) => {
     }
 })
 
+// search title, artist and key of song
+app.get('/searchSongTitleArtistKey', verifyToken, async(req, res) => {
+
+    try {
+        const { searchSongLists } = req.query;
+        const result = await pool.query('SELECT * FROM libraries WHERE title ILIKE $1 OR artist ILIKE $1 OR song_key ILIKE $1', [
+            `%${searchSongLists}%`
+        ])
+        res.json(result.rows)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
 const PORT = 3005;
 app.listen(PORT, () => {
     console.log(`Jem! Your server is running on port ${PORT}.`)
