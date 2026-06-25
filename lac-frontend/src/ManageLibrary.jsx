@@ -13,6 +13,8 @@ export default function ManageLibrary(){
     const [editLyricsMode, setEditLyricsMode] = useState(null)
     const [editlyrics, setEditLyrics] = useState('')
     const [open, setOpen] = useState(false);
+    const [searchSong, setSearchSong] = useState('')
+    const [searchTitle, setSearchTitle] = useState([])
 
         useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -110,6 +112,38 @@ export default function ManageLibrary(){
         })
     }
 
+    const handleSearchInp = () => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        if(!searchSong.trim()){
+            return;
+        }
+        axios.get('http://localhost:3005/searchSongTitle', {
+            params: { searchTitle: searchSong},
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setSearchTitle(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const handleSearchedSongs = searchSong.trim() ? searchTitle : songlists
+
+    useEffect(() => {
+        const delaySearch = setTimeout(() => {
+            if(searchSong){
+                handleSearchInp()
+            } else {
+                setSearchTitle([])
+            }
+        }, 300)
+        return () => clearTimeout(delaySearch)
+    }, [searchSong])
+
     return(
         <>
             <div className="flex h-screen bg-gray-100 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900">
@@ -155,7 +189,13 @@ export default function ManageLibrary(){
                     </button>
                     </div>
                 <h1 className="text-3xl font-semibold mb-5 text-white">Manage Songs</h1>
-                    <div>
+                    <div className="w-full max-w-md flex justify-center items-center gap-2">
+                        <input 
+                            className="p-2 w-full bg-gray-900 text-white resize-none rounded border border-gray-500 mb-2"
+                            type="text"
+                            placeholder="Search title of song"
+                            value={searchSong}
+                            onChange={(e) => setSearchSong(e.target.value)}/>
                     </div>
                     <div className="hidden sm:grid sm:grid-cols-4 gap-2 mb-2 text-black font-bold">
                         <span className="font-bold text-white">Title:</span>
@@ -165,7 +205,7 @@ export default function ManageLibrary(){
                     </div>
                     <div className="flex flex-col">
                         {
-                            songlists.map((sl) => (
+                            handleSearchedSongs.map((sl) => (
                                 <div key={sl.id}
                                     className="bg-white sm:bg-transparent sm:grid sm:grid-cols-4 gap-1 p-3 sm:p-0 rounded shadow sm:shadow-none mb-1"
                                 >
