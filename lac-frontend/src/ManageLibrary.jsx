@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaEdit, FaTrash, FaCheck, FaTimes } from "react-icons/fa";
+import { useAuthForLogout } from './LogoutFeature';
 
 export default function ManageLibrary(){
     const [songlists, setSonglists] = useState([])
@@ -15,6 +16,7 @@ export default function ManageLibrary(){
     const [open, setOpen] = useState(false);
     const [searchSong, setSearchSong] = useState('')
     const [searchTitle, setSearchTitle] = useState([])
+    const { handleLogoutBtn } = useAuthForLogout()
 
         useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -174,6 +176,10 @@ export default function ManageLibrary(){
                     <Link 
                         to={'/manageLibrary'}
                         className="block px-4 py-2 rounded hover:bg-gray-700">🙍🏻‍♂️ Manage Library</Link>
+                    <button 
+                        to={'/'}
+                        className="w-full text-left px-4 py-2 rounded hover:bg-gray-700 cursor-pointer"
+                        onClick={handleLogoutBtn}>🔴 Logout</button>
                 </nav>
                 <div className="p-4 border-t border-gray-700 text-sm text-gray-400">
                 © 2026 Jemson Mislani
