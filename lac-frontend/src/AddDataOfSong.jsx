@@ -8,6 +8,7 @@ export default function AddDataOfSongs(){
     const [title, setTitle] = useState('')
     const [artist, setArtist] = useState('')
     const [keyOf, setKeyOf] = useState('')
+    const [genre, setGenre] = useState('')
     const [lyricsandchords, setLyricsAndChords] = useState('')
     const [open, setOpen] = useState(false);  
     const { handleLogoutBtn } = useAuthForLogout()
@@ -18,6 +19,7 @@ export default function AddDataOfSongs(){
             title: title,
             artist: artist,
             song_key: keyOf,
+            genre: genre,
             lyrics: lyricsandchords
         }, {
             headers: {
@@ -109,6 +111,14 @@ export default function AddDataOfSongs(){
                                     placeholder='Key Of?'
                                     value={keyOf}
                                     onChange={(e) => setKeyOf(e.target.value)}/>
+                            </div>
+                            <div className='w-full max-w-md'>
+                                <input 
+                                    className='p-2 w-full bg-gray-900 text-white resize-none rounded border border-gray-500'
+                                    type="text" 
+                                    placeholder='Genre of song'
+                                    value={genre}
+                                    onChange={(e) => setGenre(e.target.value)}/>
                             </div>
                             <div className="w-1/1 h-[70vh]">
                             <textarea
