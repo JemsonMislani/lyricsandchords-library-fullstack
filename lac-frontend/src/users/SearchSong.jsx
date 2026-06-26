@@ -53,6 +53,26 @@ export default function SearchSong(){
         return () => clearTimeout(delaySearch)
      }, [searchsongLists])
 
+     const highlightText = (text, search) => {
+        if (!search.trim()) return text;
+
+        const regex = new RegExp(`(${search})`, "gi");
+        const parts = text.split(regex);
+
+        return parts.map((part, index) =>
+            part.toLowerCase() === search.toLowerCase() ? (
+                <span
+                    key={index}
+                    className="text-yellow-400 text-black rounded"
+                >
+                    {part}
+                </span>
+            ) : (
+                part
+            )
+        );
+    };
+
     return(
         <>
             <div className="flex h-screen bg-gray-100 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900">
@@ -116,7 +136,7 @@ export default function SearchSong(){
                                 <div className="sm:hidden space-y-1">
                                 <div>
                                     <span className="text-gray-400 text-xs">Title:</span>
-                                    <div className="font-medium">{sl.title}</div>
+                                    <div>{highlightText(sl.title, searchsongLists)}</div>
                                 </div>
                                 <div>
                                     <span className="text-gray-400 text-xs">Artist:</span>
@@ -138,7 +158,7 @@ export default function SearchSong(){
                                 </div>
 
                                 <div className="hidden sm:grid sm:grid-cols-5 gap-2">
-                                    <div>{sl.title}</div>
+                                    <div>{highlightText(sl.title, searchsongLists)}</div>
                                     <div>{sl.artist}</div>
                                     <div className="uppercase">{sl.song_key}</div>
                                     <div>{sl.genre}</div>
