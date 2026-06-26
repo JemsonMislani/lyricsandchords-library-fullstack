@@ -266,6 +266,21 @@ app.get('/searchSongTitleArtistKey', verifyToken, async(req, res) => {
     }
 })
 
+// FOR USER 
+
+// get the username of user
+app.get('/getUsersUsername', verifyToken, async(req, res) => {
+
+    try {
+        const userId = req.user.id;
+        const result = await pool.query('SELECT * FROM users WHERE id = $1', [ userId ])
+        res.json(result.rows[0])
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: 'Server Error'})
+    }
+})
+
 const PORT = 3005;
 app.listen(PORT, () => {
     console.log(`Jem! Your server is running on port ${PORT}.`)

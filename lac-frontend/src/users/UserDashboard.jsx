@@ -1,8 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 export default function UserDashBoard(){
     const [open, setOpen] = useState(false)
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.get('http://localhost:3005/getUsersUsername', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setUser(result.data.username)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
     
     return(
         <>
@@ -37,7 +54,7 @@ export default function UserDashBoard(){
                         ☰
                     </button>
                 </div>
-                <h1 className="text-3xl font-semibold mb-5 text-white">Welcome, !👋</h1>
+                <h1 className="text-3xl font-semibold mb-5 text-white">Welcome, {user}!👋</h1>
                 </main>
             </div>
         </>
