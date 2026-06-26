@@ -13,7 +13,12 @@ export default function AddDataOfSongs(){
     const [open, setOpen] = useState(false);  
     const { handleLogoutBtn } = useAuthForLogout()
 
-    const handleAddBtn = () => {
+    const handleAddBtn = (e) => {
+        e.preventDefault()
+        if(!title || !artist || !keyOf || !genre || !lyricsandchords){
+            alert('Please fill out fields')
+            return
+        }
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
         axios.post('http://localhost:3005/createDataOfSong', {
             title: title,
