@@ -1,8 +1,26 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function SearchSong(){
     const [open, setOpen] = useState(false)
+    const [songlists, setSonglists] = useState([])
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.get('http://localhost:3005/getDataOfSong', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setSonglists(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
+
     return(
         <>
             <div className="flex h-screen bg-gray-100 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900">
@@ -40,6 +58,62 @@ export default function SearchSong(){
                         ☰
                     </button>
                 </div>
+                <h1 className="text-3xl font-semibold mb-5 text-white">View song</h1>
+                    <div className='w-full max-w-md'>
+                        <input 
+                            className='p-2 w-full bg-gray-900 text-white resize-none rounded border border-gray-500 mb-5'
+                            type="text" 
+                            placeholder='Search song...'/>
+                    </div>
+                    <div>
+                        <div className="hidden sm:grid sm:grid-cols-5 gap-2 mb-2 text-white px-3">
+                        <span className="font-bold">Title:</span>
+                        <span className="font-bold">Artist:</span>
+                        <span className="font-bold">Key Of:</span>
+                        <span className="font-bold">Genre:</span>
+                        <span className="font-bold">Action:</span>
+                    </div>
+                        {
+                        songlists.map((sl) => (
+                            <div
+                                key={sl.id}
+                                className="bg-gray-900 text-white p-3 rounded mb-1 border border-gray-700"
+                            >
+                                <div className="sm:hidden space-y-1">
+                                <div>
+                                    <span className="text-gray-400 text-xs">Title:</span>
+                                    <div className="font-medium">{sl.title}</div>
+                                </div>
+                                <div>
+                                    <span className="text-gray-400 text-xs">Artist:</span>
+                                    <div>{sl.artist}</div>
+                                </div>
+                                <div>
+                                    <span className="text-gray-400 text-xs">Key Of:</span>
+                                    <div className="uppercase">{sl.song_key}</div>
+                                </div>
+                                <div>
+                                    <span className="text-gray-400 text-xs">Genre:</span>
+                                    <div>{sl.genre}</div>
+                                </div>
+                                <div>
+                                    <span className="text-gray-400 text-xs">Action: </span>
+                                    <button
+                                        className="flex flex-col bg-sky-900 px-5 py-2 rounded">View song</button>
+                                </div>
+                                </div>
+
+                                <div className="hidden sm:grid sm:grid-cols-5 gap-2">
+                                    <div>{sl.title}</div>
+                                    <div>{sl.artist}</div>
+                                    <div className="uppercase">{sl.song_key}</div>
+                                    <div>{sl.genre}</div>
+                                    <button className="px-1 bg-sky-900 rounded cursor-pointer hover:bg-sky-700 active:bg-sky-900">View song</button>
+                                </div>
+                            </div>
+                        ))
+                    }
+                    </div>
                 </main>
             </div>
         </>
