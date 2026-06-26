@@ -7,6 +7,7 @@ export default function UserDashBoard(){
     const [user, setUser] = useState(null)
     const [topartist, setTopArtist] = useState([])
     const [mostusedkey, setMostUsedKeys] = useState([])
+    const [genre, setGenre] = useState([])
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -52,6 +53,21 @@ export default function UserDashBoard(){
             console.log(err)
         })
     }, [])
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.get('http://localhost:3005/genreOfSongs', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setGenre(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },)
     
     return(
         <>
@@ -126,7 +142,7 @@ export default function UserDashBoard(){
                                             </span>
                                         </div>
                                         <div className="rounded-2xl py-3 bg-sky-500/20 text-sky-300 border border-sky-500/30">
-                                            <p className="text-xl font-bold text-white">
+                                            <p className="text-xl font-bold text-white uppercase">
                                             {
                                                 mostusedkey.find(k => k.artist === art.artist)?.song_key
                                             }
@@ -140,6 +156,54 @@ export default function UserDashBoard(){
                                 ))
                             }
                         </div>
+                    </div>
+                    <div className='mt-5'>
+                        <h2 className="text-3xl font-bold text-white">Song Genres</h2>
+                        <div className="w-24 h-1 mt-2 rounded-full bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500">
+                        </div>
+                        <p className="text-gray-400 text-sm mb-6">
+                        Discover different genres of songs.
+                        </p>
+                    </div>
+                    <div className="flex flex-col md:flex-row gap-3">
+                    {
+                        genre.map((gen, ind) => (
+                    <div 
+                        key={ind}
+                        className="max-w-sm w-full rounded-3xl bg-white/10 backdrop-blur-md border border-white/10 p-6 
+                        hover:bg-white/15 transition-all duration-300 
+                        hover:-translate-y-1 hover:shadow-2xl hover:shadow-sky-500/20">
+
+                    <div className="flex items-center gap-5">
+                        <div>
+                        <span 
+                            className="inline-block px-3 py-1 text-xs font-semibold rounded-full 
+                            bg-sky-500/20 text-sky-300 border border-sky-500/30"> Music Genre
+                        </span>
+                        <h3
+                        className="mt-3 text-2xl font-bold text-white">
+                            {gen.genre}
+                        </h3>
+                        <p 
+                        className="text-gray-400 text-sm">
+                            Spiritual & Inspirational Songs
+                        </p>
+                        </div>
+                    </div>
+                            <div 
+                            className="grid grid-cols-1 gap-4 mt-6 text-center">
+                                <div className="rounded-2xl py-3 bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                                    <p className="text-xl font-bold text-white">
+                                        {gen.total}
+                                    </p>
+                                    <span className="text-sm font-bold text-white">
+                                        Songs
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        )) 
+                    }
                     </div>
                 </main>
             </div>

@@ -15,7 +15,7 @@ export default function AddDataOfSongs(){
 
     const handleAddBtn = (e) => {
         e.preventDefault()
-        if(!title || !artist || !keyOf || !genre || !lyricsandchords){
+        if(!title.trim() || !artist.trim() || !keyOf.trim() || !genre.trim() || !lyricsandchords.trim() ){
             alert('Please fill out fields')
             return
         }
@@ -33,6 +33,11 @@ export default function AddDataOfSongs(){
         })
         .then(result => {
             setData([...data, result.data])
+            setTitle('')
+            setArtist('')
+            setKeyOf('')
+            setGenre('')
+            setLyricsAndChords('')
         })
         .catch(err => {
             console.log(err)

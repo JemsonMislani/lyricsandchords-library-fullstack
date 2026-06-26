@@ -289,6 +289,18 @@ app.get('/artistMostUsedKeys', verifyToken, async(req, res) => {
     }
 })
 
+// get number and genre of each data, just only 3 to display
+app.get('/genreOfSongs', verifyToken, async(req, res) => {
+
+    try {
+        const result = await pool.query('SELECT TRIM(genre) AS genre, COUNT(*) AS total FROM libraries WHERE genre IS NOT NULL GROUP BY genre ORDER BY total DESC LIMIT 3')
+        res.json(result.rows)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
 // FOR USER 
 
 // get the username of user
