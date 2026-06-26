@@ -266,6 +266,17 @@ app.get('/searchSongTitleArtistKey', verifyToken, async(req, res) => {
     }
 })
 
+// get artist name who contribute a lot of songs in data
+app.get('/artistMostContributedSongs', verifyToken, async(req, res) => {
+    try {
+        const result = await pool.query('SELECT artist, COUNT(*) AS total_songs FROM libraries GROUP BY artist ORDER BY total_songs DESC LIMIT 3')
+        res.json(result.rows)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
 // FOR USER 
 
 // get the username of user

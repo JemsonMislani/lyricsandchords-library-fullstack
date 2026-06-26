@@ -5,6 +5,7 @@ import axios from 'axios'
 export default function UserDashBoard(){
     const [open, setOpen] = useState(false)
     const [user, setUser] = useState(null)
+    const [topartist, setTopArtist] = useState([])
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -15,6 +16,21 @@ export default function UserDashBoard(){
         })
         .then(result => {
             setUser(result.data.username)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.get('http://localhost:3005/artistMostContributedSongs', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setTopArtist(result.data)
         })
         .catch(err => {
             console.log(err)
@@ -55,6 +71,50 @@ export default function UserDashBoard(){
                     </button>
                 </div>
                 <h1 className="text-3xl font-semibold mb-5 text-white">Welcome, {user}!👋</h1>
+                    <div className="mt-8">
+                        <div className="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 className="text-3xl font-bold text-white">Popular Artists</h2>
+                            <div className="w-24 h-1 mt-2 rounded-full bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500">
+                            </div>
+                            <p className="text-gray-400 text-sm">
+                            Discover artists with the most song contributions.
+                            </p>
+                        </div>
+                        </div>
+                        <div className="flex flex-col md:flex-row flex-wrap gap-3">
+                            {
+                                topartist.map((art, ind) => (
+                                    <div 
+                                        key={ind}
+                                        className="max-w-sm w-full rounded-3xl bg-white/10 backdrop-blur-md border border-white/10 p-6 hover:bg-white/15 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-sky-500/20">
+                                    <div className="flex items-center gap-5">
+                                    <div>
+                                        <span 
+                                            className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">Singer • Band
+                                        </span>
+                                        <h3 
+                                            className="mt-3 text-2xl font-bold text-white">{art.artist}
+                                        </h3>
+                                        <p 
+                                            className="text-gray-400 text-sm">Artist
+                                        </p>
+                                    </div>
+                                    </div>
+                                    <div 
+                                        className='grid grid-cols-3 gap-4 mt-6 text-center'>
+                                        <div className="rounded-2xl py-3 bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                                            <p className="text-xl font-bold text-white">{art.total_songs}</p>
+                                            <span className="text-xl font-bold text-white">
+                                            Songs
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                ))
+                            }
+                        </div>
+                    </div>
                 </main>
             </div>
         </>
