@@ -277,6 +277,18 @@ app.get('/artistMostContributedSongs', verifyToken, async(req, res) => {
     }
 })
 
+// get total of key that the artist used
+app.get('/artistMostUsedKeys', verifyToken, async(req, res) => {
+    
+    try {
+        const result = await pool.query('SELECT artist, song_key, COUNT(*) AS total FROM libraries GROUP BY artist, song_key ORDER BY artist, total DESC')    
+        res.json(result.rows)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Server Error');
+    }
+})
+
 // FOR USER 
 
 // get the username of user

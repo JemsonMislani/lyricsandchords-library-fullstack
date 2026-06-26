@@ -6,6 +6,7 @@ export default function UserDashBoard(){
     const [open, setOpen] = useState(false)
     const [user, setUser] = useState(null)
     const [topartist, setTopArtist] = useState([])
+    const [mostusedkey, setMostUsedKeys] = useState([])
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -31,6 +32,21 @@ export default function UserDashBoard(){
         })
         .then(result => {
             setTopArtist(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [])
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.get('http://localhost:3005/artistMostUsedKeys', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setMostUsedKeys(result.data)
         })
         .catch(err => {
             console.log(err)
@@ -82,7 +98,7 @@ export default function UserDashBoard(){
                             </p>
                         </div>
                         </div>
-                        <div className="flex flex-col md:flex-row flex-wrap gap-3">
+                        <div className="flex flex-col md:flex-row gap-3">
                             {
                                 topartist.map((art, ind) => (
                                     <div 
@@ -102,11 +118,21 @@ export default function UserDashBoard(){
                                     </div>
                                     </div>
                                     <div 
-                                        className='grid grid-cols-3 gap-4 mt-6 text-center'>
+                                        className='grid grid-cols-2 gap-4 mt-6 text-center'>
                                         <div className="rounded-2xl py-3 bg-sky-500/20 text-sky-300 border border-sky-500/30">
                                             <p className="text-xl font-bold text-white">{art.total_songs}</p>
-                                            <span className="text-xl font-bold text-white">
+                                            <span className="text-sm font-bold text-white">Total of
                                             Songs
+                                            </span>
+                                        </div>
+                                        <div className="rounded-2xl py-3 bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                                            <p className="text-xl font-bold text-white">
+                                            {
+                                                mostusedkey.find(k => k.artist === art.artist)?.song_key
+                                            }
+                                            </p>
+                                            <span className="text-sm font-bold text-white">
+                                            Most used key
                                             </span>
                                         </div>
                                     </div>
