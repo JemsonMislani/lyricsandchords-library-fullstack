@@ -86,7 +86,11 @@ export default function UserDashBoard(){
                 <div className="text-2xl font-bold p-6 border-b border-gray-700">User Dashboard</div>
                 <nav className="flex-1 p-4 space-y-2">
                     <Link 
+                        to={'/userDashboard'}
                         className="block px-4 py-2 rounded hover:bg-gray-700">🏠 Home</Link>
+                    <Link 
+                        to={'/searchsong'}
+                        className="block px-4 py-2 rounded hover:bg-gray-700">🔎 Search Song</Link>
                 </nav>
                 <div className="p-4 border-t border-gray-700 text-sm text-gray-400">
                 © 2026 Jemson Mislani

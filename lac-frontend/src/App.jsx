@@ -6,6 +6,7 @@ import Songlists from './Songlists'
 import AddDataOfSongs from './AddDataOfSong'
 import ManageLibrary from './ManageLibrary'
 import UserDashBoard from './users/UserDashboard'
+import SearchSong from './users/SearchSong'
 export default function App() {
 
   return (
@@ -23,7 +24,8 @@ export default function App() {
         <Route path='/manageLibrary' element={<ManageLibrary />}/>
         
         {/* For user */}
-        <Route path='userDashboard' element={<UserDashBoard/>}/>
+        <Route path='/userDashboard' element={<UserDashBoard/>}/>
+        <Route path='/searchSong' element={<SearchSong />}/>
       </Routes>
       </BrowserRouter>
     </>
