@@ -5,6 +5,8 @@ import axios from "axios";
 export default function SearchSong(){
     const [open, setOpen] = useState(false)
     const [songlists, setSonglists] = useState([])
+    const [searchsongLists, setSearchSongLists] = useState('')
+    const [songlistsdata, setSonglistsData] = useState([])
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -20,6 +22,36 @@ export default function SearchSong(){
             console.log(err)
         })
     }, [])
+
+    const handleSearchInp = () => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.get('http://localhost:3005/searchSongTitleArtistKey', {
+            params: {searchSongLists: searchsongLists},
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            setSonglistsData(result.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+     const handleSearchedInp = searchsongLists.trim() ? songlistsdata : songlists
+
+     useEffect(() => {
+        const delaySearch = setTimeout(() => {
+            if(searchsongLists){
+                handleSearchInp()
+            } else {
+                setSonglistsData([])
+            }
+        }, 300)
+
+        return () => clearTimeout(delaySearch)
+     }, [searchsongLists])
 
     return(
         <>
@@ -63,7 +95,9 @@ export default function SearchSong(){
                         <input 
                             className='p-2 w-full bg-gray-900 text-white resize-none rounded border border-gray-500 mb-5'
                             type="text" 
-                            placeholder='Search song...'/>
+                            placeholder='Search song...'
+                            value={searchsongLists}
+                            onChange={(e) => setSearchSongLists(e.target.value)}/>
                     </div>
                     <div>
                         <div className="hidden sm:grid sm:grid-cols-5 gap-2 mb-2 text-white px-3">
@@ -74,7 +108,7 @@ export default function SearchSong(){
                         <span className="font-bold">Action:</span>
                     </div>
                         {
-                        songlists.map((sl) => (
+                        handleSearchedInp.map((sl) => (
                             <div
                                 key={sl.id}
                                 className="bg-gray-900 text-white p-3 rounded mb-1 border border-gray-700"

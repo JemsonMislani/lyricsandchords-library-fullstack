@@ -256,7 +256,7 @@ app.get('/searchSongTitleArtistKey', verifyToken, async(req, res) => {
 
     try {
         const { searchSongLists } = req.query;
-        const result = await pool.query('SELECT * FROM libraries WHERE title ILIKE $1 OR artist ILIKE $1 OR song_key ILIKE $1', [
+        const result = await pool.query('SELECT * FROM libraries WHERE title ILIKE $1 OR artist ILIKE $1 OR song_key ILIKE $1 OR genre ILIKE $1', [
             `%${searchSongLists}%`
         ])
         res.json(result.rows)
