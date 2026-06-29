@@ -1,18 +1,16 @@
 const bcrypt = require('bcrypt');
 const { Pool } = require('pg');
+require('dotenv').config();
 
 const pool = new Pool({
-    user: 'postgres',
-    password: 'Im_Jem23*',
-    host: 'localhost',
-    database: 'lyricsandchords_library_fullstack',
-    port: 5432
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
 })
 
 async function projectAdmin() {
     try {
-        const username = 'jem';
-        const email = 'jemsonmislani@gmail.com';
+        const username = 'Jem';
+        const email = 'admin@gmail.com';
         const password = 'jemson';
 
         const cleanEmail = email.toLowerCase().trim()

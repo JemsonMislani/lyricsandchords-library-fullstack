@@ -2,7 +2,9 @@ const express = require('express')
 const cors = require('cors')
 const { Pool } = require('pg')
 const jwt = require('jsonwebtoken')
+require('dotenv').config();
 const bcrypt = require('bcrypt')
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const app = express()
 
@@ -10,11 +12,8 @@ app.use(cors())
 app.use(express.json())
 
 const pool = new Pool({
-    user: 'postgres',
-    password: 'Im_Jem23*',
-    host: 'localhost',
-    database: 'lyricsandchords_library_fullstack',
-    port: 5432
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
 })
 
 const verifyToken = (req, res, next) => {
@@ -31,7 +30,7 @@ const verifyToken = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, 'YOUR_JWT_SECRET');
+        const decoded = jwt.verify(token, JWT_SECRET);
         req.user = decoded;
         next();
     } catch (error) {
@@ -63,7 +62,7 @@ app.post('/registerAcc', async(req, res) => {
         const user = result.rows[0]
         const token = jwt.sign(
             {id: user.id},
-            'YOUR_JWT_SECRET',
+            JWT_SECRET,
             {expiresIn: '24h'}
         );
 
@@ -96,7 +95,7 @@ app.post('/loginAcc', async(req, res) => {
 
         const token = jwt.sign(
             {id: user.id},
-            'YOUR_JWT_SECRET',
+            JWT_SECRET,
             {expiresIn: '24h'}
         )
         return res.json({
@@ -390,7 +389,7 @@ app.get('/favoriteSongs', verifyToken, async(req, res) => {
     }
 })
 
-const PORT = 3005;
+const PORT = process.env.PORT || 3005;
 app.listen(PORT, () => {
     console.log(`Jem! Your server is running on port ${PORT}.`)
 })
