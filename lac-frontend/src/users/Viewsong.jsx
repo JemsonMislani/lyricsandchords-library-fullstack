@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 export default function ViewSong(){
     const [dataOfSong, setDataOfSong] = useState([])
+    const [scroll, setScroll] = useState(false)
     const { id } = useParams();
 
     useEffect(() => {
@@ -21,6 +22,22 @@ export default function ViewSong(){
             console.log(err)
         })
     }, [])
+
+    const scrollLyricsAndChords = useRef(null)
+    useEffect(() => {
+        let interval;
+
+        if(scroll && scrollLyricsAndChords.current){
+            interval = setInterval(() => {
+                scrollLyricsAndChords.current.scrollTop += 1
+            }, 200)
+        }
+        return () => clearInterval(interval)
+    }, [scroll])
+
+    const handleScrollBtn = () => {
+        setScroll((srl) => !srl)
+    }
 
     return(
         <>
@@ -54,11 +71,18 @@ export default function ViewSong(){
                         </div>
                     </div>
                      <div className="mt-2 bg-white/10 backdrop-blur-md border border-white/10 rounded-3xl p-8">
-
-                    <h2 className="text-2xl font-bold mb-6">
-                        Lyrics & Chords
-                    </h2>
-                    <pre className="whitespace-pre-wrap font-mono leading-8 text-lg text-gray-100">
+                    <div className="flex items-center justify-between m-5 ml-0">
+                        <h2 className="text-2xl font-bold">
+                            Lyrics & Chords
+                        </h2>
+                        <button 
+                            className='cursor-pointer text-2xl'
+                            onClick={handleScrollBtn}>{scroll ? '❚❚' : '▶︎'}
+                        </button>
+                    </div>
+                    <pre 
+                        ref={scrollLyricsAndChords}
+                        className="whitespace-pre-wrap font-mono leading-8 text-lg text-gray-100 max-h-[580px] overflow-y-auto scrollbar-hide">
                         {dataOfSong.lyrics}
                     </pre>
                 </div>
