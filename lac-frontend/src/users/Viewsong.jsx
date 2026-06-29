@@ -2,10 +2,12 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 export default function ViewSong(){
     const [dataOfSong, setDataOfSong] = useState([])
     const [scroll, setScroll] = useState(false)
+    const [fave, setFave] = useState(false)
     const { id } = useParams();
 
     useEffect(() => {
@@ -39,6 +41,22 @@ export default function ViewSong(){
         setScroll((srl) => !srl)
     }
 
+    const handleFaveBtn = () => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+        axios.post('http://localhost:3005/addFavorite/' + id, {}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(result => {
+            result.data
+            setFave(true)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
     return(
         <>
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900 text-white p-6">
@@ -61,6 +79,20 @@ export default function ViewSong(){
                                 </p>
                             </div>
                             <div className="flex gap-3 flex-wrap">
+                                <button 
+                                    onClick={handleFaveBtn}
+                                    className="px-4 py-2 rounded-full bg-white text-red-300 font-semibold cursor-pointer">
+                                    {fave ? (
+                                        <>
+                                        <FaHeart className="text-red-500" />
+                                        </> )
+                                         : 
+                                         (
+                                        <>
+                                        <FaRegHeart className="text-gray-400 hover:text-red-400" />
+                                        </>
+                                         )}
+                                </button>
                                 <span className="px-4 py-2 rounded-full bg-sky-500/20 border border-sky-500/40 text-sky-300 font-semibold uppercase">
                                     {dataOfSong.song_key}
                                 </span>

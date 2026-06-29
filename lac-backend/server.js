@@ -329,6 +329,20 @@ app.get('/getSongTitleArtistKey/:id', verifyToken, async (req, res) => {
     }
 });
 
+// add to favorite song
+app.post('/addFavorite/:songId', verifyToken, async(req, res) => {
+
+    try {
+        const userId = req.user.id;
+        const { songId } = req.params;
+        const result = await pool.query('INSERT INTO favorites (user_id, song_id) VALUES ($1, $2) RETURNING *', [ userId, songId ])
+        res.json(result.rows[0])
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: 'Server Error'})
+    }
+})
+
 const PORT = 3005;
 app.listen(PORT, () => {
     console.log(`Jem! Your server is running on port ${PORT}.`)
