@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -7,6 +7,7 @@ export default function SearchSong(){
     const [songlists, setSonglists] = useState([])
     const [searchsongLists, setSearchSongLists] = useState('')
     const [songlistsdata, setSonglistsData] = useState([])
+    const nav = useNavigate()
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -153,7 +154,8 @@ export default function SearchSong(){
                                 <div>
                                     <span className="text-gray-400 text-xs">Action: </span>
                                     <button
-                                        className="flex flex-col bg-sky-900 px-5 py-2 rounded">View song</button>
+                                        className="flex flex-col bg-sky-900 px-5 py-2 rounded"
+                                        onClick={() => nav(`/viewsong/${sl.id}`)}>View song</button>
                                 </div>
                                 </div>
 
@@ -162,7 +164,8 @@ export default function SearchSong(){
                                     <div>{sl.artist}</div>
                                     <div className="uppercase">{sl.song_key}</div>
                                     <div>{sl.genre}</div>
-                                    <button className="px-1 bg-sky-900 rounded cursor-pointer hover:bg-sky-700 active:bg-sky-900">View song</button>
+                                    <button className="px-1 bg-sky-900 rounded cursor-pointer hover:bg-sky-700 active:bg-sky-900"
+                                    onClick={() => nav(`/viewsong/${sl.id}`)}>View song</button>
                                 </div>
                             </div>
                         ))
