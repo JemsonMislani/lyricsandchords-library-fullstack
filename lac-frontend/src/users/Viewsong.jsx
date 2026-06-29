@@ -43,17 +43,18 @@ export default function ViewSong(){
 
     const handleFaveBtn = () => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.post('http://localhost:3005/addFavorite/' + id, {}, {
+        setFave(prev => !prev)
+        axios.post('http://localhost:3005/favorites/toggle/' + id, {}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
         .then(result => {
-            result.data
-            setFave(true)
+            setFave(result.data.isFavorite)
         })
         .catch(err => {
             console.log(err)
+        setFave(prev => !prev)
         })
     }
 

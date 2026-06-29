@@ -330,18 +330,37 @@ app.get('/getSongTitleArtistKey/:id', verifyToken, async (req, res) => {
 });
 
 // add to favorite song
-app.post('/addFavorite/:songId', verifyToken, async(req, res) => {
-
+app.post('/favorites/toggle/:songId', verifyToken, async (req, res) => {
+    
     try {
         const userId = req.user.id;
         const { songId } = req.params;
-        const result = await pool.query('INSERT INTO favorites (user_id, song_id) VALUES ($1, $2) RETURNING *', [ userId, songId ])
-        res.json(result.rows[0])
+
+        const check = await pool.query(
+            'SELECT 1 FROM favorites WHERE user_id = $1 AND song_id = $2',
+            [userId, songId]
+        );
+
+        if (check.rows.length > 0) {
+            await pool.query(
+                'DELETE FROM favorites WHERE user_id = $1 AND song_id = $2',
+                [userId, songId]
+            );
+            return res.json({ isFavorite: false });
+        }
+
+        await pool.query(
+            'INSERT INTO favorites (user_id, song_id) VALUES ($1, $2)',
+            [userId, songId]
+        );
+
+        return res.json({ isFavorite: true });
+
     } catch (error) {
         console.log(error);
-        res.status(500).send({message: 'Server Error'})
+        res.status(500).send({ message: 'Server Error' });
     }
-})
+});
 
 const PORT = 3005;
 app.listen(PORT, () => {
