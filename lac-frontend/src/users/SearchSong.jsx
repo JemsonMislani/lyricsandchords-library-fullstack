@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useAuthForLogout } from './LogoutUser';
+
 
 export default function SearchSong(){
     const [open, setOpen] = useState(false)
@@ -8,6 +10,7 @@ export default function SearchSong(){
     const [searchsongLists, setSearchSongLists] = useState('')
     const [songlistsdata, setSonglistsData] = useState([])
     const nav = useNavigate()
+    const { handleLogoutBtn } = useAuthForLogout()
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -99,6 +102,10 @@ export default function SearchSong(){
                     <Link 
                         to={'/favorite'}
                         className="block px-4 py-2 rounded hover:bg-gray-700">❤️ Favorites</Link>
+                    <button 
+                        to={'/'}
+                        className="w-full text-left px-4 py-2 rounded hover:bg-gray-700 cursor-pointer"
+                        onClick={handleLogoutBtn}>🔴 Logout</button>
                 </nav>
                 <div className="p-4 border-t border-gray-700 text-sm text-gray-400">
                 © 2026 Jemson Mislani
