@@ -331,7 +331,7 @@ app.get('/getSongTitleArtistKey/:id', verifyToken, async (req, res) => {
 
 // add to favorite song
 app.post('/favorites/toggle/:songId', verifyToken, async (req, res) => {
-    
+
     try {
         const userId = req.user.id;
         const { songId } = req.params;
@@ -361,6 +361,34 @@ app.post('/favorites/toggle/:songId', verifyToken, async (req, res) => {
         res.status(500).send({ message: 'Server Error' });
     }
 });
+
+// get status of song
+app.get('/favorites/status/:songId', verifyToken, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { songId } = req.params;
+        const result = await pool.query(
+            'SELECT 1 FROM favorites WHERE user_id = $1 AND song_id = $2', [userId, songId]
+        );
+        res.json({ isFavorite: result.rows.length > 0 });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: 'Server Error' });
+    }
+});
+
+// get favorite song, show to favorite page.
+app.get('/favoriteSongs', verifyToken, async(req, res) => {
+
+    try {
+        const userId = req.user.id;
+        const result = await pool.query('SELECT f.id as favorite_id, s.id as song_id, s.title, s.artist, s.song_key FROM favorites f JOIN libraries s ON s.id = f.song_id WHERE f.user_id = $1 ORDER BY f.id DESC', [ userId ])
+        res.json(result.rows)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: 'Server Error' });
+    }
+})
 
 const PORT = 3005;
 app.listen(PORT, () => {

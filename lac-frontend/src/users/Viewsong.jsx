@@ -43,7 +43,6 @@ export default function ViewSong(){
 
     const handleFaveBtn = () => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        setFave(prev => !prev)
         axios.post('http://localhost:3005/favorites/toggle/' + id, {}, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -54,9 +53,25 @@ export default function ViewSong(){
         })
         .catch(err => {
             console.log(err)
-        setFave(prev => !prev)
         })
     }
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+        axios.get('http://localhost:3005/favorites/status/' + id, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            setFave(res.data.isFavorite);
+        })
+        .catch(err => {
+            console.log(err);
+            setFave(false);
+        });
+    }, [id]);
 
     return(
         <>
@@ -83,7 +98,7 @@ export default function ViewSong(){
                                 <button 
                                     onClick={handleFaveBtn}
                                     className="px-4 py-2 rounded-full bg-white text-red-300 font-semibold cursor-pointer">
-                                    {fave ? (
+                                    {fave === true ? (
                                         <>
                                         <FaHeart className="text-red-500" />
                                         </> )
