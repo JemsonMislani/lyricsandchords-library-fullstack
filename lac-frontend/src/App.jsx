@@ -8,6 +8,7 @@ import ManageLibrary from './ManageLibrary'
 import UserDashBoard from './users/UserDashboard'
 import SearchSong from './users/SearchSong'
 import ViewSong from './users/Viewsong'
+import FavoriteSong from './users/Favorites'
 export default function App() {
 
   return (
@@ -28,6 +29,7 @@ export default function App() {
         <Route path='/userDashboard' element={<UserDashBoard/>}/>
         <Route path='/searchSong' element={<SearchSong />}/>
         <Route path='/viewsong/:id' element={<ViewSong />}/>
+        <Route path='/favorite' element={<FavoriteSong />}/>
         
       </Routes>
       </BrowserRouter>

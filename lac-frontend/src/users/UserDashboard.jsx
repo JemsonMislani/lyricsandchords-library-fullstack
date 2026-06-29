@@ -91,6 +91,9 @@ export default function UserDashBoard(){
                     <Link 
                         to={'/searchsong'}
                         className="block px-4 py-2 rounded hover:bg-gray-700">🔎 Search Song</Link>
+                    <Link 
+                        to={'/favorite'}
+                        className="block px-4 py-2 rounded hover:bg-gray-700">❤️ Favorites</Link>
                 </nav>
                 <div className="p-4 border-t border-gray-700 text-sm text-gray-400">
                 © 2026 Jemson Mislani
