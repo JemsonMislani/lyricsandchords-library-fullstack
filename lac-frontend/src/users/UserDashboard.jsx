@@ -69,7 +69,7 @@ export default function UserDashBoard(){
         .catch(err => {
             console.log(err)
         })
-    },)
+    }, [])
     
     return(
         <>
