@@ -63,7 +63,7 @@ export default function FavoriteSong(){
                     </button>
                 </div>
                 <h1 className="text-3xl font-semibold mb-5 text-white">Favorite lists</h1>
-                    <div className="grid gap-4">
+                    <div className="grid gap-2">
                         {faveLists.map((fv) => (
                             <div
                                 key={fv.song_id}
