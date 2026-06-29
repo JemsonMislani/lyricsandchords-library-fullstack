@@ -303,7 +303,7 @@ export default function ManageLibrary(){
                                                     </>)
                                                     :
                                                     (<>
-                                                    <div className="whitespace-pre-wrap font-mono leading-7">
+                                                    <div className="whitespace-pre font-mono text-sm sm:text-base leading-6 text-gray-100 max-h-[70vh] overflow-y-auto scrollbar-hide">
                                                         {sl.lyrics}
                                                     </div>
                                                     </>)
