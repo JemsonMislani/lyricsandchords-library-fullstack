@@ -20,7 +20,7 @@ export default function LoginAccount(){
             return
         }
 
-        axios.post('http://localhost:3005/loginAcc', {
+        axios.post(`${import.meta.env.VITE_API_URL}/loginAcc`, {
             username: username,
             email: email,
             password: password

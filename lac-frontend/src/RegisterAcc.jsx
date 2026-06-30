@@ -18,7 +18,7 @@ export default function RegisterAccount(){
             return
         }
 
-        axios.post('http://localhost:3005/registerAcc', {
+        axios.post(`${import.meta.env.VITE_API_URL}/registerAcc`, {
             username: username,
             email: email,
             password: password
