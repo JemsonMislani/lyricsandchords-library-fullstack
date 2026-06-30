@@ -8,7 +8,15 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+
+    origin: [
+        'http://localhost:5173',
+        'https://lyricsandchords-library-fullstack.vercel.app'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}))
 app.use(express.json())
 
 const pool = new Pool({
