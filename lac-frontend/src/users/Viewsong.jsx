@@ -81,7 +81,7 @@ export default function ViewSong(){
                     to="/searchsong"
                     className="inline-flex items-center mb-6 px-4 py-2 rounded-lg bg-sky-700 hover:bg-sky-600 transition"
                 >
-                    ← Back
+                    Back
                 </Link>
                     <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-3xl p-8 shadow-xl">
                         <div 
