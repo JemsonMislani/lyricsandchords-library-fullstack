@@ -14,7 +14,7 @@ export default function AdminDashBoard(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/getAdminUsername', {
+        axios.get(`${import.meta.env.VITE_API_URL}/getAdminUsername`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -29,7 +29,7 @@ export default function AdminDashBoard(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/totalOfSong', {
+        axios.get(`${import.meta.env.VITE_API_URL}/totalOfSong`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -44,7 +44,7 @@ export default function AdminDashBoard(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/totalOfArtist', {
+        axios.get(`${import.meta.env.VITE_API_URL}/totalOfArtist`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -59,7 +59,7 @@ export default function AdminDashBoard(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/totalOfUsedChords', {
+        axios.get(`${import.meta.env.VITE_API_URL}/totalOfUsedChords`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

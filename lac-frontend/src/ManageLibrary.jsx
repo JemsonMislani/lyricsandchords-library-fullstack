@@ -20,7 +20,7 @@ export default function ManageLibrary(){
 
         useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/getDataOfSong', {
+        axios.get(`${import.meta.env.VITE_API_URL}/getDataOfSong`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -46,7 +46,7 @@ export default function ManageLibrary(){
             return
         }
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.put('http://localhost:3005/editDataOfSong/' + id, {
+        axios.put(`${import.meta.env.VITE_API_URL}/editDataOfSong/` + id, {
             title: edittitle,
             artist: editartist,
             song_key: editkeyOf
@@ -71,7 +71,7 @@ export default function ManageLibrary(){
 
     const handleDeleteBtn = (id) => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.delete('http://localhost:3005/deleteDataOfSong/' + id, {
+        axios.delete(`${import.meta.env.VITE_API_URL}/deleteDataOfSong/` + id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -96,7 +96,7 @@ export default function ManageLibrary(){
 
     const handleSaveEditedLyrics = (id) => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.put('http://localhost:3005/editLyrics/' + id, {
+        axios.put(`${import.meta.env.VITE_API_URL}/editLyrics/` + id, {
             lyrics: editlyrics
         }, {
             headers: {
@@ -119,7 +119,7 @@ export default function ManageLibrary(){
         if(!searchSong.trim()){
             return;
         }
-        axios.get('http://localhost:3005/searchSongTitle', {
+        axios.get(`${import.meta.env.VITE_API_URL}/searchSongTitle`, {
             params: { searchTitle: searchSong},
             headers: {
                 Authorization: `Bearer ${token}`

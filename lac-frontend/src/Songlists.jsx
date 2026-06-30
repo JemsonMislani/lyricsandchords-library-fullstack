@@ -13,7 +13,7 @@ export default function Songlists(){
     
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/getAdminUsername', {
+        axios.get(`${import.meta.env.VITE_API_URL}/getAdminUsername`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -28,7 +28,7 @@ export default function Songlists(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/getDataOfSong', {
+        axios.get(`${import.meta.env.VITE_API_URL}/getDataOfSong`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -43,7 +43,7 @@ export default function Songlists(){
 
     const handleSearchInp = () => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/searchSongTitleArtistKey', {
+        axios.get(`${import.meta.env.VITE_API_URL}/searchSongTitleArtistKey`, {
             params: {searchSongLists: searchsongLists},
             headers: {
                 Authorization: `Bearer ${token}`

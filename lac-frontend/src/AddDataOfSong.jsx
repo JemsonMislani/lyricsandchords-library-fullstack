@@ -20,7 +20,7 @@ export default function AddDataOfSongs(){
             return
         }
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.post('http://localhost:3005/createDataOfSong', {
+        axios.post(`${import.meta.env.VITE_API_URL}/createDataOfSong`, {
             title: title,
             artist: artist,
             song_key: keyOf,
