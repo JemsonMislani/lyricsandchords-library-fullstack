@@ -12,7 +12,7 @@ export default function ViewSong(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/getSongTitleArtistKey/' + id, {
+        axios.get(`${import.meta.env.VITE_API_URL}/getSongTitleArtistKey/` + id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -43,7 +43,7 @@ export default function ViewSong(){
 
     const handleFaveBtn = () => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.post('http://localhost:3005/favorites/toggle/' + id, {}, {
+        axios.post(`${import.meta.env.VITE_API_URL}/favorites/toggle/` + id, {}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -59,7 +59,7 @@ export default function ViewSong(){
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
-        axios.get('http://localhost:3005/favorites/status/' + id, {
+        axios.get(`${import.meta.env.VITE_API_URL}/favorites/status/` + id, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

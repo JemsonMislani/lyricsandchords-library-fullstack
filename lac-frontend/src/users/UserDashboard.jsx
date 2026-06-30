@@ -13,7 +13,7 @@ export default function UserDashBoard(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/getUsersUsername', {
+        axios.get(`${import.meta.env.VITE_API_URL}/getUsersUsername`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -28,7 +28,7 @@ export default function UserDashBoard(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/artistMostContributedSongs', {
+        axios.get(`${import.meta.env.VITE_API_URL}/artistMostContributedSongs`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -43,7 +43,7 @@ export default function UserDashBoard(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/artistMostUsedKeys', {
+        axios.get(`${import.meta.env.VITE_API_URL}/artistMostUsedKeys`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -58,7 +58,7 @@ export default function UserDashBoard(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/genreOfSongs', {
+        axios.get(`${import.meta.env.VITE_API_URL}/genreOfSongs`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

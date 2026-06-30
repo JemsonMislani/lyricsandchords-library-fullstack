@@ -11,7 +11,7 @@ export default function FavoriteSong(){
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-        axios.get('http://localhost:3005/favoriteSongs', {
+        axios.get(`${import.meta.env.VITE_API_URL}/favoriteSongs`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
