@@ -9,6 +9,7 @@ export default function ViewSong(){
     const [scroll, setScroll] = useState(false)
     const [fave, setFave] = useState(false)
     const { id } = useParams();
+    const [popUp, setPopUpMessage] = useState(false)
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -50,6 +51,11 @@ export default function ViewSong(){
         })
         .then(result => {
             setFave(result.data.isFavorite)
+            setPopUpMessage(true)
+            
+            setTimeout(() => {
+                setPopUpMessage(false)
+            }, 2000)
         })
         .catch(err => {
             console.log(err)
@@ -83,6 +89,15 @@ export default function ViewSong(){
                 >
                     Back
                 </Link>
+                    {
+                        fave === true ? (<>
+                            {popUp && (<div className='fixed top-5 right-6 bg-green-600 text-white px-5 py-2 rounded-lg shadow-lg z-[9999]'>Added to Favorites!</div>)}
+                        </>) 
+                        : 
+                        (<>
+                            {popUp && (<div className='fixed top-5 right-6 bg-green-600 text-white px-5 py-2 rounded-lg shadow-lg z-[9999]'>Undo Favorites</div>)}
+                        </>)
+                    }
                     <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-3xl p-8 shadow-xl">
                         <div 
                             className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
