@@ -17,6 +17,11 @@ export default function ManageLibrary(){
     const [searchSong, setSearchSong] = useState('')
     const [searchTitle, setSearchTitle] = useState([])
     const { handleLogoutBtn, loading } = useAuthForLogout()
+    const [popUp, setPopUp] = useState({
+        show: false,
+        message: '',
+        type: ''
+    })
 
         useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -63,6 +68,7 @@ export default function ManageLibrary(){
             setEditTitle('')
             setEditArtist('')
             setEditKeyOf('')
+            popUpMessageForManageSongs('Song updated✅', 'success')
         })
         .catch(err => {
             console.log(err)
@@ -79,6 +85,7 @@ export default function ManageLibrary(){
         .then(result => {
             setSonglists(prev => prev.filter(sl => sl.id !== id))
             result.data
+            popUpMessageForManageSongs('Song deleted⛔', 'error')
         })
         .catch(err => {
             console.log(err)
@@ -108,6 +115,7 @@ export default function ManageLibrary(){
                 result.data : sl
             ))
             setEditLyricsMode(null)
+            popUpMessageForManageSongs('Song updated✅', 'success')
         })
         .catch(err => {
             console.log(err)
@@ -145,6 +153,21 @@ export default function ManageLibrary(){
         }, 300)
         return () => clearTimeout(delaySearch)
     }, [searchSong])
+
+    const popUpMessageForManageSongs =(message, type) => {
+        setPopUp({
+            show: true,
+            message,
+            type
+        })
+        setTimeout(() => {
+            setPopUp({
+                show: false,
+                message: '',
+                type: ''
+            })
+        }, 2000)
+    }
 
     return(
         <>
@@ -202,6 +225,12 @@ export default function ManageLibrary(){
                     </button>
                     </div>
                 <h1 className="text-3xl font-semibold mb-5 text-white">Manage Songs</h1>
+                <div className="absolute top-0 right-0 m-5">
+                    { popUp.show && (<p className={`fixed top-5 right-6 bg-green-600 text-white px-5 py-2 rounded-lg shadow-lg z-[9999] ${
+                        popUp.type === 'success' ? 'bg-green-700 border-green-300' : 
+                        popUp.type === 'error' ? 'bg-red-900 border-red-300' : 'bg-sky-700'
+                    }`}>{popUp.message}</p>)}
+                </div>
                     <div className="w-full max-w-md flex justify-center items-center gap-2">
                         <input 
                             className="p-2 w-full bg-gray-900 text-white resize-none rounded border border-gray-500 mb-2"

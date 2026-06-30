@@ -12,6 +12,7 @@ export default function AddDataOfSongs(){
     const [lyricsandchords, setLyricsAndChords] = useState('')
     const [open, setOpen] = useState(false);  
     const { handleLogoutBtn, loading } = useAuthForLogout()
+    const [popUp, setPopUp] = useState(false)
 
     const handleAddBtn = (e) => {
         e.preventDefault()
@@ -32,12 +33,17 @@ export default function AddDataOfSongs(){
             }
         })
         .then(result => {
+            setPopUp(true)
             setData([...data, result.data])
             setTitle('')
             setArtist('')
             setKeyOf('')
             setGenre('')
             setLyricsAndChords('')
+            
+            setTimeout(() => {
+                setPopUp(false)
+            }, 2000)
         })
         .catch(err => {
             console.log(err)
@@ -102,6 +108,7 @@ export default function AddDataOfSongs(){
                     </div>
                     <div>
                        <h1 className="text-3xl font-semibold mb-5 text-white">Add a song</h1>
+                       {popUp && (<div className='fixed top-5 right-6 bg-green-600 text-white px-5 py-2 rounded-lg shadow-lg z-[9999]'>Song Added!</div>)}
                     </div>
                     <form onSubmit={handleAddBtn}>
                         <div className='flex flex-col gap-1'>
