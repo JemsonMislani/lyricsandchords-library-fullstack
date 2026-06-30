@@ -9,7 +9,7 @@ export default function UserDashBoard(){
     const [topartist, setTopArtist] = useState([])
     const [mostusedkey, setMostUsedKeys] = useState([])
     const [genre, setGenre] = useState([])
-    const { handleLogoutBtn } = useAuthForLogout()
+    const { handleLogoutBtn, loading } = useAuthForLogout()
 
     useEffect(() => {
         const token = localStorage.getItem('token') || sessionStorage.getItem('token')
@@ -73,6 +73,13 @@ export default function UserDashBoard(){
     
     return(
         <>
+            {
+                loading && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[9999]">
+                        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                )
+            }
             <div className="flex h-screen bg-gray-100 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900">
                 {open && (
                     <div
