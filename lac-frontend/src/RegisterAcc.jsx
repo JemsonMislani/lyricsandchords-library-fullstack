@@ -10,6 +10,8 @@ export default function RegisterAccount(){
     const [password, setPassword] = useState('')
     const nav = useNavigate()
     const [showpass, setShowPass] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleSubmitBtn = (e) => {
         e.preventDefault()
@@ -18,6 +20,8 @@ export default function RegisterAccount(){
             return
         }
 
+        setError('');
+        setLoading(true)
         axios.post(`${import.meta.env.VITE_API_URL}/registerAcc`, {
             username: username,
             email: email,
@@ -34,19 +38,37 @@ export default function RegisterAccount(){
             nav('/')
         })
         .catch(err => {
-            alert(err.response?.data?.message || 'Email already used')
+            setError(err.response?.data?.message || 'Email already used')
+        })
+        .finally(() => {
+            setLoading(false);
         })
         
     }
     return(
         <>
+            {
+                loading && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+                        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                )
+            }
             <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-sky-900'>
-                <form 
+                <form
                     onSubmit={handleSubmitBtn}
-                    className='w-full max-w-mdw-full max-w-md sm:p-4'>
+                    className={`w-full max-w-md sm:p-4 transition-opacity duration-300 ${
+                        loading ? 'opacity-50 pointer-events-none' : ''
+                    }`}
+                >
                     <div className='w-full min-h-screen sm:min-h-auto sm:rounded-2xl bg-white/20 backdrop-blur-xl border border-white/30 shadow-2xl p-6 sm:p-10 flex flex-col justify-center'>
                         <div>
                             <div className='text-3xl font-semibold text-center mb-8 text-white'>Signup</div>
+                            {error && (
+                            <div className="mb-4 text-sm text-red-200 bg-red-500/30 border border-red-400 rounded-lg px-3 py-2">
+                                {error}
+                            </div>
+                            )}
                             <div className='flex flex-col gap-5'>
                             <input
                                 className='w-full py-3 px-3 bg-white/80 border border-white/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500'
@@ -73,7 +95,9 @@ export default function RegisterAccount(){
                                     {showpass ? <FaEyeSlash /> : <FaEye />}
                                 </div>
                             </div>
-                            <button className='w-full py-3 bg-sky-600 text-white rounded-lg text-lg hover:bg-sky-700 active:bg-sky-800 transition cursor-pointer'>Submit</button>
+                            <button 
+                                    disabled={loading}
+                                    className='w-full py-3 bg-sky-600 text-white rounded-lg text-lg hover:bg-sky-700 active:bg-sky-800 transition cursor-pointer'>{loading ? 'Signing in...' : 'Submit'}</button>
                             <div className='flex justify-center'>
                             <Link 
                                 className='text-center text-sm text-white hover:text-sky-400'
